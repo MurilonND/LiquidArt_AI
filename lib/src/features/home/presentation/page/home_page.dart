@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -68,7 +69,19 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             );
-          })
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.brush,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF),
+                  () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const DrawerPage()),
+                );
+              }),
         ],
       ),
     );
