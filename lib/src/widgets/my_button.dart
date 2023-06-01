@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
-  MyButton({super.key, required this.label});
-  String label;
+  const MyButton({super.key, required this.label});
+  final String label;
 
   @override
   State<MyButton> createState() => _MyButtonState();
