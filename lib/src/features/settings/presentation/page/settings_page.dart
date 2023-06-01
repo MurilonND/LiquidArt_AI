@@ -24,14 +24,27 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Container(
           padding: const EdgeInsets.all(50),
           child: ListView(
-            children: [
+            children: const [
               MyInputField(label: 'Server Port', initialInput: 'Ex: 8080'),
-              const SizedBox(height: 25,),
-              MyInputField(label: 'Liquid Galaxy Host Name', initialInput: 'Ex: lg1'),
-              const SizedBox(height: 25,),
-              MyInputField(label: 'Liquid Galaxy Host Password', initialInput: 'Ex: lg'),
-              const SizedBox(height: 40,),
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: MyButton(label: 'Save Settings',),),
+              SizedBox(
+                height: 25,
+              ),
+              MyInputField(
+                  label: 'Liquid Galaxy Host Name', initialInput: 'Ex: lg1'),
+              SizedBox(
+                height: 25,
+              ),
+              MyInputField(
+                  label: 'Liquid Galaxy Host Password', initialInput: 'Ex: lg'),
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: MyButton(
+                  label: 'Save Settings',
+                ),
+              ),
             ],
           ),
         ),
@@ -46,12 +59,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 Icons.home,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                );
-              })
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
+          })
         ],
       ),
     );
@@ -62,6 +74,8 @@ _buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
     child: icon,
     backgroundColor: backgroundColor,
-    onTap: () {function();},
+    onTap: () {
+      function();
+    },
   );
 }

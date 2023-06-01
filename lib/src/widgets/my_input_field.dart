@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MyInputField extends StatefulWidget {
-  MyInputField({super.key, required this.label, required this.initialInput});
+  const MyInputField({super.key, required this.label, required this.initialInput});
 
-  String label;
-  String initialInput;
+  final String label;
+  final String initialInput;
 
   @override
   State<MyInputField> createState() => _MyInputFieldState();
@@ -17,7 +17,7 @@ class _MyInputFieldState extends State<MyInputField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 0),
+          padding: const EdgeInsets.only(left: 0),
           child: Text(
             widget.label,
             style: const TextStyle(fontSize: 18),
@@ -28,10 +28,10 @@ class _MyInputFieldState extends State<MyInputField> {
           decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.0),
-                borderSide: BorderSide(color: Colors.black),
+                borderSide: const BorderSide(color: Colors.black),
               ),
               filled: true,
-              hintStyle: TextStyle(fontSize: 16, color: Colors.grey),
+              hintStyle: const TextStyle(fontSize: 16, color: Colors.grey),
               hintText: widget.initialInput,
               fillColor: Colors.white70),
         )
