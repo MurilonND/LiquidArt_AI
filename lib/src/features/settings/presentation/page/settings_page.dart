@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/widgets/my_button.dart';
 import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
@@ -16,8 +17,10 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: const Text("Settings", style: TextStyle(color: Colors.black),),
         centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
       body: Center(
@@ -63,7 +66,19 @@ class _SettingsPageState extends State<SettingsPage> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const MyHomePage()),
             );
-          })
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.brush,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF),
+                  () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const DrawerPage()),
+                );
+              }),
         ],
       ),
     );
