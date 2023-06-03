@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
+import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/widgets/my_button.dart';
 import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
@@ -77,6 +78,18 @@ class _SettingsPageState extends State<SettingsPage> {
                   () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const DrawerPage()),
+                );
+              }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.image,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF),
+                  () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const GalleryPage()),
                 );
               }),
         ],

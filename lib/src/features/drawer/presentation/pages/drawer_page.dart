@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
 import 'package:liquid_art_ai/src/widgets/my_button.dart';
@@ -178,6 +179,18 @@ class _DrawerPageState extends State<DrawerPage> {
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             );
           }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.image,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF),
+                  () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const GalleryPage()),
+                );
+              }),
         ],
       ),
     );
