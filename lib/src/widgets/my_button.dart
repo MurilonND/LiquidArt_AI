@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
-  const MyButton({super.key, required this.label});
+  const MyButton({super.key, required this.label, required this.onTap});
   final String label;
+  final Function onTap;
 
   @override
   State<MyButton> createState() => _MyButtonState();
@@ -23,7 +24,9 @@ class _MyButtonState extends State<MyButton> {
           child: Text(widget.label, style: const TextStyle(color: Colors.white, fontSize: 18),),
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        widget.onTap();
+      },
     );
   }
 }
