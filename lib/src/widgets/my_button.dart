@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
-  const MyButton({super.key, required this.label, required this.onTap});
+  MyButton(
+      {super.key,
+      this.enable = true,
+      required this.label,
+      required this.onTap});
+
+  bool enable;
   final String label;
   final Function onTap;
 
@@ -17,15 +23,19 @@ class _MyButtonState extends State<MyButton> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
         decoration: BoxDecoration(
-          color: const Color(0xFF4C7BBF),
-          borderRadius: BorderRadius.circular(50)
-        ),
+            color: widget.enable ? const Color(0xFF4C7BBF) : Colors.grey,
+            borderRadius: BorderRadius.circular(50)),
         child: Center(
-          child: Text(widget.label, style: const TextStyle(color: Colors.white, fontSize: 18),),
+          child: Text(
+            widget.label,
+            style: const TextStyle(color: Colors.white, fontSize: 18),
+          ),
         ),
       ),
       onTap: () {
-        widget.onTap();
+        if(widget.enable) {
+          widget.onTap();
+        }
       },
     );
   }

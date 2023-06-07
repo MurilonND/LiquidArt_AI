@@ -40,16 +40,16 @@ class _GalleryPageState extends State<GalleryPage> {
                 Flexible(
                   flex: 1,
                   child: Column(
-                    children: const [
-                      MyButton(label: 'Show on Liquid Galaxy'),
+                    children: [
+                      MyButton(label: 'Show on Liquid Galaxy', onTap: () {},),
                       SizedBox(
                         height: 10,
                       ),
-                      MyButton(label: 'Download the Image'),
+                      MyButton(label: 'Download the Image', onTap: () {},),
                       SizedBox(
                         height: 10,
                       ),
-                      MyButton(label: 'Share the Image'),
+                      MyButton(label: 'Share the Image', onTap: () {},),
                     ],
                   ),
                 )

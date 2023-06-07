@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/drawer/infrastructure/api_services.dart';
@@ -17,9 +16,26 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
-  final List<String> sizes = ["Small", "Medium", "Large"];
-  final List<String> values = ["256x256", "512x512", "1024x1024"];
-  late String? dropValue;
+  List<String> modes = ["DallE"];
+  List<String> modelValues = ["DallE"];
+  String? modelValue;
+
+  List<String> sizes = ["Small", "Medium", "Large"];
+  List<String> sizeValues = ["256x256", "512x512", "1024x1024"];
+  String? sizeValue;
+
+  List<String> batchCount = ["0"];
+  List<String> batchCountValues = ["0"];
+  String? batchCountValue;
+
+  List<String> batchSize = ["0"];
+  List<String> batchSizeValues = ["0"];
+  String? batchSizeValue;
+
+  List<String> scale = ["0"];
+  List<String> scaleValues = ["0"];
+  String? scaleValue;
+
   String image = "";
 
   var textController = TextEditingController();
@@ -55,7 +71,7 @@ class _DrawerPageState extends State<DrawerPage> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Flexible(
                               flex: 4,
                               child: MyInputField(
@@ -64,36 +80,37 @@ class _DrawerPageState extends State<DrawerPage> {
                                 textController: textController,
                               ),
                             ),
-                            Flexible(
+                            const Flexible(
                               flex: 1,
                               child: SizedBox(),
                             ),
                             Flexible(
                               flex: 2,
                               child: MyDropDown(
-                                dropValue: dropValue,
-                                hintText: "aaa",
-                                values: values,
+                                label: "Size",
+                                dropValue: sizeValue,
+                                hintText: "Size",
+                                values: sizeValues,
                                 items: sizes,
-                                onChanged: ,
+                                onChanged: (value) {},
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
-                        const MyInputField(
+                        MyInputField(
                           label: 'API Key',
                           initialInput: 'API Key',
                           textController: textController,
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Flexible(
                               flex: 2,
                               child: MyInputField(
@@ -102,7 +119,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 textController: textController,
                               ),
                             ),
-                            Flexible(
+                            const Flexible(
                               flex: 1,
                               child: SizedBox(),
                             ),
@@ -117,27 +134,27 @@ class _DrawerPageState extends State<DrawerPage> {
                           ],
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
-                        const MyInputField(
+                        MyInputField(
                           label: 'Image Prompt',
                           initialInput: 'Image Prompt',
                           textController: textController,
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
-                        const MyInputField(
+                        MyInputField(
                           label: 'Negative Prompt',
                           initialInput: 'Negative Prompt',
                           textController: textController,
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Flexible(
                               flex: 4,
                               child: MyInputField(
@@ -146,7 +163,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 textController: textController,
                               ),
                             ),
-                            Flexible(
+                            const Flexible(
                               flex: 1,
                               child: SizedBox(),
                             ),
@@ -160,26 +177,35 @@ class _DrawerPageState extends State<DrawerPage> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 30),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: MyButton(
+                            label: 'Generate Image',
+                            onTap: () {},
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
                 Flexible(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset('assets/logo/Logo.png'),
-                        const SizedBox(height: 20),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
-                          child: MyButton(
-                            label: 'Save Image Generated',
-                            onTap: _saveImage,
-                          ),
-                        )
-                      ],
-                    ))
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.asset('assets/logo/Logo.png'),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: MyButton(
+                          label: 'Send Image to Gallery',
+                          onTap: () {},
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -237,5 +263,3 @@ _buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
     },
   );
 }
-
-_saveImage() {}
