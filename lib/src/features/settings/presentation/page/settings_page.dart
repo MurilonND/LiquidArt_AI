@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
+import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/widgets/my_button.dart';
 import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
@@ -12,12 +14,19 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  var textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: const Text(
+          "Settings",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
       body: Center(
@@ -25,13 +34,37 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.all(50),
           child: ListView(
             children: [
-              MyInputField(label: 'Server Port', initialInput: 'Ex: 8080'),
-              const SizedBox(height: 25,),
-              MyInputField(label: 'Liquid Galaxy Host Name', initialInput: 'Ex: lg1'),
-              const SizedBox(height: 25,),
-              MyInputField(label: 'Liquid Galaxy Host Password', initialInput: 'Ex: lg'),
-              const SizedBox(height: 40,),
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: MyButton(label: 'Save Settings',),),
+              MyInputField(
+                label: 'Server Port',
+                initialInput: 'Ex: 8080',
+                textController: textController,
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              MyInputField(
+                label: 'Liquid Galaxy Host Name',
+                initialInput: 'Ex: lg1',
+                textController: textController,
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              MyInputField(
+                label: 'Liquid Galaxy Host Password',
+                initialInput: 'Ex: lg',
+                textController: textController,
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: MyButton(
+                  label: 'Save Settings',
+                  onTap: () {},
+                ),
+              ),
             ],
           ),
         ),
@@ -46,12 +79,33 @@ class _SettingsPageState extends State<SettingsPage> {
                 Icons.home,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                );
-              })
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.brush,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const DrawerPage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.image,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
         ],
       ),
     );
@@ -62,6 +116,8 @@ _buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
     child: icon,
     backgroundColor: backgroundColor,
-    onTap: () {function();},
+    onTap: () {
+      function();
+    },
   );
 }
