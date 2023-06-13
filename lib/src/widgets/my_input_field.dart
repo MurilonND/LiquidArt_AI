@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyInputField extends StatefulWidget {
-  const MyInputField({super.key, required this.label, required this.initialInput});
+  MyInputField({super.key, this.maxLines = 1, required this.label, required this.initialInput, required this.textController});
 
   final String label;
   final String initialInput;
+  final TextEditingController textController;
+  int? maxLines;
 
   @override
   State<MyInputField> createState() => _MyInputFieldState();
@@ -24,7 +26,9 @@ class _MyInputFieldState extends State<MyInputField> {
           ),
         ),
         TextField(
+          controller: widget.textController,
           autocorrect: false,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.0),

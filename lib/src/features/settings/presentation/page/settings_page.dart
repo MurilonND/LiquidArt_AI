@@ -14,11 +14,16 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  var textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings", style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Settings",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -28,18 +33,28 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Container(
           padding: const EdgeInsets.all(50),
           child: ListView(
-            children: const [
-              MyInputField(label: 'Server Port', initialInput: 'Ex: 8080'),
+            children: [
+              MyInputField(
+                label: 'Server Port',
+                initialInput: 'Ex: 8080',
+                textController: textController,
+              ),
               SizedBox(
                 height: 25,
               ),
               MyInputField(
-                  label: 'Liquid Galaxy Host Name', initialInput: 'Ex: lg1'),
+                label: 'Liquid Galaxy Host Name',
+                initialInput: 'Ex: lg1',
+                textController: textController,
+              ),
               SizedBox(
                 height: 25,
               ),
               MyInputField(
-                  label: 'Liquid Galaxy Host Password', initialInput: 'Ex: lg'),
+                label: 'Liquid Galaxy Host Password',
+                initialInput: 'Ex: lg',
+                textController: textController,
+              ),
               SizedBox(
                 height: 40,
               ),
@@ -47,6 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: MyButton(
                   label: 'Save Settings',
+                  onTap: () {},
                 ),
               ),
             ],
@@ -74,24 +90,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 Icons.brush,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const DrawerPage()),
-                );
-              }),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const DrawerPage()),
+            );
+          }),
           _buildSpeedDial(
               context,
               const Icon(
                 Icons.image,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const GalleryPage()),
-                );
-              }),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
         ],
       ),
     );

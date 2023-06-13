@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/drawer/infrastructure/api_services.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
 import 'package:liquid_art_ai/src/widgets/my_button.dart';
+import 'package:liquid_art_ai/src/widgets/my_dropdown.dart';
 import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
 
 class DrawerPage extends StatefulWidget {
@@ -15,6 +16,30 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
+  List<String> modes = ["DallE"];
+  List<String> modelValues = ["DallE"];
+  String? modelValue;
+
+  List<String> sizes = ["Small", "Medium", "Large"];
+  List<String> sizeValues = ["256x256", "512x512", "1024x1024"];
+  String? sizeValue;
+
+  List<String> batchCount = ["0"];
+  List<String> batchCountValues = ["0"];
+  String? batchCountValue;
+
+  List<String> batchSize = ["0"];
+  List<String> batchSizeValues = ["0"];
+  String? batchSizeValue;
+
+  List<String> scale = ["0"];
+  List<String> scaleValues = ["0"];
+  String? scaleValue;
+
+  String image = "";
+
+  var textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,88 +71,120 @@ class _DrawerPageState extends State<DrawerPage> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Flexible(
                               flex: 4,
                               child: MyInputField(
-                                  label: 'AI Model', initialInput: 'AI Model'),
+                                label: 'AI Model',
+                                initialInput: 'AI Model',
+                                textController: textController,
+                              ),
+                            ),
+                            const Flexible(
+                              flex: 1,
+                              child: SizedBox(),
                             ),
                             Flexible(
+                              flex: 2,
+                              child: MyDropDown(
+                                label: "Size",
+                                dropValue: sizeValue,
+                                hintText: "Size",
+                                values: sizeValues,
+                                items: sizes,
+                                onChanged: (value) {},
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyInputField(
+                          label: 'API Key',
+                          initialInput: 'API Key',
+                          textController: textController,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              flex: 2,
+                              child: MyInputField(
+                                label: 'Batch Count',
+                                initialInput: 'Batch Count',
+                                textController: textController,
+                              ),
+                            ),
+                            const Flexible(
                               flex: 1,
                               child: SizedBox(),
                             ),
                             Flexible(
                               flex: 2,
                               child: MyInputField(
-                                  label: 'Size', initialInput: 'Size'),
+                                label: 'Batch Size',
+                                initialInput: 'Batch Size',
+                                textController: textController,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
-                        const MyInputField(
-                            label: 'API Key', initialInput: 'API Key'),
+                        MyInputField(
+                          label: 'Image Prompt',
+                          initialInput: 'Image Prompt',
+                          textController: textController,
+                        ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
+                        ),
+                        MyInputField(
+                          label: 'Negative Prompt',
+                          initialInput: 'Negative Prompt',
+                          textController: textController,
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Flexible(
-                              flex: 2,
-                              child: MyInputField(
-                                  label: 'Batch Count',
-                                  initialInput: 'Batch Count'),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: SizedBox(),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: MyInputField(
-                                  label: 'Batch Size',
-                                  initialInput: 'Batch Size'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const MyInputField(
-                            label: 'Image Prompt',
-                            initialInput: 'Image Prompt'),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const MyInputField(
-                            label: 'Negative Prompt',
-                            initialInput: 'Negative Prompt'),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Flexible(
                               flex: 4,
                               child: MyInputField(
-                                  label: 'Seed', initialInput: 'Seed'),
+                                label: 'Seed',
+                                initialInput: 'Seed',
+                                textController: textController,
+                              ),
                             ),
-                            Flexible(
+                            const Flexible(
                               flex: 1,
                               child: SizedBox(),
                             ),
                             Flexible(
                               flex: 2,
                               child: MyInputField(
-                                  label: 'CFG Scale',
-                                  initialInput: 'CFG Scale'),
+                                label: 'CFG Scale',
+                                initialInput: 'CFG Scale',
+                                textController: textController,
+                              ),
                             ),
                           ],
                         ),
-
+                        const SizedBox(height: 30),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: MyButton(
+                            label: 'Generate Image',
+                            onTap: () {},
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -139,15 +196,16 @@ class _DrawerPageState extends State<DrawerPage> {
                     children: [
                       Image.asset('assets/logo/Logo.png'),
                       const SizedBox(height: 20),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: MyButton(
-                          label: 'Save Image Generated',
+                          label: 'Send Image to Gallery',
+                          onTap: () {},
                         ),
                       )
                     ],
-                  )
-                )
+                  ),
+                ),
               ],
             ),
           ),
@@ -185,12 +243,11 @@ class _DrawerPageState extends State<DrawerPage> {
                 Icons.image,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const GalleryPage()),
-                );
-              }),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
         ],
       ),
     );
