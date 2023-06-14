@@ -3,8 +3,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
-import 'package:liquid_art_ai/src/widgets/my_button.dart';
-import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -34,25 +34,25 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.all(50),
           child: ListView(
             children: [
-              MyInputField(
+              LiquidArtTextField(
                 label: 'Server Port',
-                initialInput: 'Ex: 8080',
+                hintText: 'Ex: 8080',
                 textController: textController,
               ),
               SizedBox(
                 height: 25,
               ),
-              MyInputField(
+              LiquidArtTextField(
                 label: 'Liquid Galaxy Host Name',
-                initialInput: 'Ex: lg1',
+                hintText: 'Ex: lg1',
                 textController: textController,
               ),
               SizedBox(
                 height: 25,
               ),
-              MyInputField(
+              LiquidArtTextField(
                 label: 'Liquid Galaxy Host Password',
-                initialInput: 'Ex: lg',
+                hintText: 'Ex: lg',
                 textController: textController,
               ),
               SizedBox(
@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: MyButton(
+                child: LiquidArtButton(
                   label: 'Save Settings',
                   onTap: () {},
                 ),

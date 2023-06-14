@@ -3,7 +3,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
-import 'package:liquid_art_ai/src/widgets/my_button.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -13,6 +14,8 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
+  var textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +44,19 @@ class _GalleryPageState extends State<GalleryPage> {
                   flex: 1,
                   child: Column(
                     children: [
-                      MyButton(label: 'Show on Liquid Galaxy', onTap: () {},),
-                      SizedBox(
+                      LiquidArtTextField(label: 'Search by Prompt', hintText: 'Search by Prompt', textController: textController),
+                      const SizedBox(
                         height: 10,
                       ),
-                      MyButton(label: 'Download the Image', onTap: () {},),
-                      SizedBox(
+                      LiquidArtButton(label: 'Show on Liquid Galaxy', onTap: () {},),
+                      const SizedBox(
                         height: 10,
                       ),
-                      MyButton(label: 'Share the Image', onTap: () {},),
+                      // LiquidArtButton(label: 'Download the Image', onTap: () {},),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      LiquidArtButton(label: 'Share the Image', onTap: () {},),
                     ],
                   ),
                 )
