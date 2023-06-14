@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MyDropDown extends StatefulWidget {
-  MyDropDown(
+class LiquidArtDropDown extends StatefulWidget {
+  LiquidArtDropDown(
       {Key? key,
       required this.label,
       required this.dropValue,
@@ -19,10 +19,10 @@ class MyDropDown extends StatefulWidget {
   final Function onChanged;
 
   @override
-  State<MyDropDown> createState() => _MyDropDownState();
+  State<LiquidArtDropDown> createState() => _LiquidArtDropDownState();
 }
 
-class _MyDropDownState extends State<MyDropDown> {
+class _LiquidArtDropDownState extends State<LiquidArtDropDown> {
   @override
   Widget build(BuildContext context) {
     return Column(

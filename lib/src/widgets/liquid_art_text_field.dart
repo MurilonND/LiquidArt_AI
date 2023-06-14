@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-class MyInputField extends StatefulWidget {
-  MyInputField({super.key, this.maxLines = 1, required this.label, required this.initialInput, required this.textController});
+class LiquidArtTextField extends StatefulWidget {
+  LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, required this.textController, this.enabled = true});
 
   final String label;
-  final String initialInput;
+  final String hintText;
+  bool enabled;
   final TextEditingController textController;
   int? maxLines;
 
   @override
-  State<MyInputField> createState() => _MyInputFieldState();
+  State<LiquidArtTextField> createState() => _LiquidArtTextFieldState();
 }
 
-class _MyInputFieldState extends State<MyInputField> {
+class _LiquidArtTextFieldState extends State<LiquidArtTextField> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,10 +23,11 @@ class _MyInputFieldState extends State<MyInputField> {
           padding: const EdgeInsets.only(left: 0),
           child: Text(
             widget.label,
-            style: const TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, color: widget.enabled ? Colors.black : Colors.grey),
           ),
         ),
         TextField(
+          enabled: widget.enabled,
           controller: widget.textController,
           autocorrect: false,
           maxLines: widget.maxLines,
@@ -36,7 +38,7 @@ class _MyInputFieldState extends State<MyInputField> {
               ),
               filled: true,
               hintStyle: const TextStyle(fontSize: 16, color: Colors.grey),
-              hintText: widget.initialInput,
+              hintText: widget.hintText,
               fillColor: Colors.white70),
         )
       ],

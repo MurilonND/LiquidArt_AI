@@ -4,9 +4,9 @@ import 'package:liquid_art_ai/src/features/drawer/infrastructure/api_services.da
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
-import 'package:liquid_art_ai/src/widgets/my_button.dart';
-import 'package:liquid_art_ai/src/widgets/my_dropdown.dart';
-import 'package:liquid_art_ai/src/widgets/my_input_field.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_dropdown.dart';
+import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
 class DrawerPage extends StatefulWidget {
   const DrawerPage({super.key});
@@ -54,19 +54,20 @@ class _DrawerPageState extends State<DrawerPage> {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Flexible(
-                  flex: 1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: SingleChildScrollView(
                   child: Container(
                     // width: double.infinity,
                     padding: const EdgeInsets.all(50),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -74,9 +75,9 @@ class _DrawerPageState extends State<DrawerPage> {
                           children: [
                             Flexible(
                               flex: 4,
-                              child: MyInputField(
+                              child: LiquidArtTextField(
                                 label: 'AI Model',
-                                initialInput: 'AI Model',
+                                hintText: 'AI Model',
                                 textController: textController,
                               ),
                             ),
@@ -86,13 +87,17 @@ class _DrawerPageState extends State<DrawerPage> {
                             ),
                             Flexible(
                               flex: 2,
-                              child: MyDropDown(
+                              child: LiquidArtDropDown(
                                 label: "Size",
                                 dropValue: sizeValue,
                                 hintText: "Size",
                                 values: sizeValues,
                                 items: sizes,
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  setState(() {
+                                    sizeValue = value;
+                                  });
+                                },
                               ),
                             ),
                           ],
@@ -100,9 +105,10 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        MyInputField(
+                        LiquidArtTextField(
+                          enabled: false,
                           label: 'API Key',
-                          initialInput: 'API Key',
+                          hintText: 'API Key',
                           textController: textController,
                         ),
                         const SizedBox(
@@ -113,9 +119,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           children: [
                             Flexible(
                               flex: 2,
-                              child: MyInputField(
+                              child: LiquidArtTextField(
+                                enabled: false,
                                 label: 'Batch Count',
-                                initialInput: 'Batch Count',
+                                hintText: 'Batch Count',
                                 textController: textController,
                               ),
                             ),
@@ -125,9 +132,10 @@ class _DrawerPageState extends State<DrawerPage> {
                             ),
                             Flexible(
                               flex: 2,
-                              child: MyInputField(
+                              child: LiquidArtTextField(
+                                enabled: false,
                                 label: 'Batch Size',
-                                initialInput: 'Batch Size',
+                                hintText: 'Batch Size',
                                 textController: textController,
                               ),
                             ),
@@ -136,17 +144,18 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        MyInputField(
+                        LiquidArtTextField(
                           label: 'Image Prompt',
-                          initialInput: 'Image Prompt',
+                          hintText: 'Image Prompt',
                           textController: textController,
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        MyInputField(
+                        LiquidArtTextField(
+                          enabled: false,
                           label: 'Negative Prompt',
-                          initialInput: 'Negative Prompt',
+                          hintText: 'Negative Prompt',
                           textController: textController,
                         ),
                         const SizedBox(
@@ -157,9 +166,10 @@ class _DrawerPageState extends State<DrawerPage> {
                           children: [
                             Flexible(
                               flex: 4,
-                              child: MyInputField(
+                              child: LiquidArtTextField(
+                                enabled: false,
                                 label: 'Seed',
-                                initialInput: 'Seed',
+                                hintText: 'Seed',
                                 textController: textController,
                               ),
                             ),
@@ -169,45 +179,40 @@ class _DrawerPageState extends State<DrawerPage> {
                             ),
                             Flexible(
                               flex: 2,
-                              child: MyInputField(
+                              child: LiquidArtTextField(
+                                enabled: false,
                                 label: 'CFG Scale',
-                                initialInput: 'CFG Scale',
+                                hintText: 'CFG Scale',
                                 textController: textController,
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 30),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: MyButton(
-                            label: 'Generate Image',
-                            onTap: () {},
-                          ),
+                        LiquidArtButton(
+                          label: 'Generate Image',
+                          onTap: true ? () {} : null,
                         )
                       ],
                     ),
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset('assets/logo/Logo.png'),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: MyButton(
-                          label: 'Send Image to Gallery',
-                          onTap: () {},
-                        ),
-                      )
-                    ],
-                  ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo/Logo.png'),
+                    const SizedBox(height: 20),
+                    LiquidArtButton(
+                      label: 'Send Image to Gallery',
+                      onTap: false ? () {} : null,
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
