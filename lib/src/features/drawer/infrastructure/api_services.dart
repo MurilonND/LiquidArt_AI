@@ -1,30 +1,29 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:liquid_art_ai/env.dart';
 
 class DallE {
-  static final url = Uri.parse("uri");
+  static final url = Uri.parse("https://api.openai.com/v1/images/generations");
 
-  static final headers = {
-    "ContentType": "application/json",
-    "Authorization": "Bearer $apiKey"
-  };
+  static generateImage(String imagePrompt, String size, String apiKey) async{
+    final headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $apiKey"
+    };
 
-  static generateImage(String text, String size) async{
     final body = jsonEncode(
       {
-        "prompt": text,
+        "prompt": imagePrompt,
         "n": 1,
         "size": size
       },
     );
 
     var res = await http.post(url, headers: headers, body: body,);
-
+    print(res.statusCode);
     if(res.statusCode == 200){
       var data = jsonDecode(res.body.toString());
-      print(data);
+      return data['data'][0]['url'].toString();
     }else{
       print("Dall-E API call Error");
     }

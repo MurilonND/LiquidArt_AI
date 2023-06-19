@@ -37,8 +37,20 @@ class _DrawerPageState extends State<DrawerPage> {
   String? scaleValue;
 
   String image = "";
+  bool isLoaded = false;
 
   var textController = TextEditingController();
+
+  TextEditingController? _imagePromptController;
+  TextEditingController? _APIKeyController;
+
+  @override
+  void initState() {
+    _imagePromptController = TextEditingController(text: '');
+    _APIKeyController = TextEditingController(text: '');
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +87,17 @@ class _DrawerPageState extends State<DrawerPage> {
                           children: [
                             Flexible(
                               flex: 4,
-                              child: LiquidArtTextField(
-                                label: 'AI Model',
-                                hintText: 'AI Model',
-                                textController: textController,
+                              child: LiquidArtDropDown(
+                                label: "AI Model",
+                                dropValue: modelValue,
+                                hintText: "AI Model",
+                                values: modelValues,
+                                items: modes,
+                                onChanged: (value) {
+                                  setState(() {
+                                    modelValue = value;
+                                  });
+                                },
                               ),
                             ),
                             const Flexible(
@@ -105,11 +124,32 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        LiquidArtTextField(
-                          enabled: false,
-                          label: 'API Key',
-                          hintText: 'API Key',
-                          textController: textController,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 0),
+                              child: Text(
+                                'API Key',
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              ),
+                            ),
+                            TextField(
+                              controller: _APIKeyController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
+                                  ),
+                                  filled: true,
+                                  hintStyle: const TextStyle(
+                                      fontSize: 16, color: Colors.grey),
+                                  hintText: 'API Key',
+                                  fillColor: Colors.white70),
+                            )
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
@@ -144,10 +184,32 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        LiquidArtTextField(
-                          label: 'Image Prompt',
-                          hintText: 'Image Prompt',
-                          textController: textController,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 0),
+                              child: Text(
+                                'Image Prompt',
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              ),
+                            ),
+                            TextField(
+                              controller: _imagePromptController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
+                                  ),
+                                  filled: true,
+                                  hintStyle: const TextStyle(
+                                      fontSize: 16, color: Colors.grey),
+                                  hintText: 'Image Prompt',
+                                  fillColor: Colors.white70),
+                            )
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
@@ -191,7 +253,23 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(height: 30),
                         LiquidArtButton(
                           label: 'Generate Image',
-                          onTap: true ? () {} : null,
+                          onTap: modelValue != null && sizeValue != null
+                              // &&
+                              //     _APIKeyController!.text.isNotEmpty &&
+                              //     _imagePromptController!.text.isNotEmpty
+                              ? () async {
+                                  setState(() {
+                                    isLoaded = false;
+                                  });
+                                  image = await DallE.generateImage(
+                                      _imagePromptController!.text,
+                                      sizeValue!,
+                                      _APIKeyController!.text);
+                                  setState(() {
+                                    isLoaded = true;
+                                  });
+                                }
+                              : null,
                         )
                       ],
                     ),
@@ -203,7 +281,11 @@ class _DrawerPageState extends State<DrawerPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('assets/logo/Logo.png'),
+                    if (isLoaded) ...[
+                      Image.network(image)
+                    ] else ...[
+                      Image.asset('assets/logo/Logo.png')
+                    ],
                     const SizedBox(height: 20),
                     LiquidArtButton(
                       label: 'Send Image to Gallery',
