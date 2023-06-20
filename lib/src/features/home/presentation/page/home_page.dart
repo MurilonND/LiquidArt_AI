@@ -17,43 +17,41 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      // width: double.infinity,
-                      padding: const EdgeInsets.all(50),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'Welcome To LiquidArt AI!',
-                            style:
-                            TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'First to start click in the round button in the bottom and go to the configuration page, there fill the field with the right data to connect with the Liquid Galaxy then you can go to the draw page and start creating your own images!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 25),
-                          ),
-                        ],
-                      ),
+          child: Padding(
+            padding: const EdgeInsets.all(50),
+            child: Wrap(
+              alignment: WrapAlignment.spaceAround,
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  child: Container(
+                    // width: double.infinity,
+                    padding: const EdgeInsets.all(50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Welcome To LiquidArt AI!',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'First to start click in the round button in the bottom and go to the configuration page, there fill the field with the right data to connect with the Liquid Galaxy then you can go to the draw page and start creating your own images!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                      ],
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Image.asset('assets/logo/Logo.png'),
-                  )
-                ],
-              ),
-            ),),
+                ),
+                Image.asset('assets/logo/Logo.png'),
+              ],
+            ),
+          ),
+        ),
       ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
@@ -65,8 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.settings,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
+              const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             );
@@ -77,24 +74,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.brush,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const DrawerPage()),
-                );
-              }),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const DrawerPage()),
+            );
+          }),
           _buildSpeedDial(
               context,
               const Icon(
                 Icons.image,
                 color: Colors.white,
               ),
-              const Color(0xFF4C7BBF),
-                  () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const GalleryPage()),
-                );
-              }),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
         ],
       ),
     );
@@ -105,6 +100,8 @@ _buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
     child: icon,
     backgroundColor: backgroundColor,
-    onTap: () {function();},
+    onTap: () {
+      function();
+    },
   );
 }

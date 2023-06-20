@@ -66,235 +66,235 @@ class _DrawerPageState extends State<DrawerPage> {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Wrap(
+              alignment: WrapAlignment.spaceAround,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: Container(
-                    // width: double.infinity,
-                    padding: const EdgeInsets.all(50),
-                    child: Column(
+                      padding: const EdgeInsets.all(50),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 4,
+                                child: LiquidArtDropDown(
+                                  label: "AI Model",
+                                  dropValue: modelValue,
+                                  hintText: "AI Model",
+                                  values: modelValues,
+                                  items: modes,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      modelValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              const Flexible(
+                                flex: 1,
+                                child: SizedBox(),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                child: LiquidArtDropDown(
+                                  label: "Size",
+                                  dropValue: sizeValue,
+                                  hintText: "Size",
+                                  values: sizeValues,
+                                  items: sizes,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      sizeValue = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 0),
+                                child: Text(
+                                  'API Key',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black),
+                                ),
+                              ),
+                              TextField(
+                                controller: _APIKeyController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide:
+                                          const BorderSide(color: Colors.black),
+                                    ),
+                                    filled: true,
+                                    hintStyle: const TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                    hintText: 'API Key',
+                                    fillColor: Colors.white70),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: LiquidArtTextField(
+                                  enabled: false,
+                                  label: 'Batch Count',
+                                  hintText: 'Batch Count',
+                                  textController: textController,
+                                ),
+                              ),
+                              const Flexible(
+                                flex: 1,
+                                child: SizedBox(),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                child: LiquidArtTextField(
+                                  enabled: false,
+                                  label: 'Batch Size',
+                                  hintText: 'Batch Size',
+                                  textController: textController,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 0),
+                                child: Text(
+                                  'Image Prompt',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black),
+                                ),
+                              ),
+                              TextField(
+                                controller: _imagePromptController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      borderSide:
+                                          const BorderSide(color: Colors.black),
+                                    ),
+                                    filled: true,
+                                    hintStyle: const TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                    hintText: 'Image Prompt',
+                                    fillColor: Colors.white70),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          LiquidArtTextField(
+                            enabled: false,
+                            label: 'Negative Prompt',
+                            hintText: 'Negative Prompt',
+                            textController: textController,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 4,
+                                child: LiquidArtTextField(
+                                  enabled: false,
+                                  label: 'Seed',
+                                  hintText: 'Seed',
+                                  textController: textController,
+                                ),
+                              ),
+                              const Flexible(
+                                flex: 1,
+                                child: SizedBox(),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                child: LiquidArtTextField(
+                                  enabled: false,
+                                  label: 'CFG Scale',
+                                  hintText: 'CFG Scale',
+                                  textController: textController,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          LiquidArtButton(
+                            label: 'Generate Image',
+                            onTap: modelValue != null && sizeValue != null
+                                // &&
+                                //     _APIKeyController!.text.isNotEmpty &&
+                                //     _imagePromptController!.text.isNotEmpty
+                                ? () async {
+                                    setState(() {
+                                      isLoaded = false;
+                                    });
+                                    image = await DallE.generateImage(
+                                        _imagePromptController!.text,
+                                        sizeValue!,
+                                        _APIKeyController!.text);
+                                    setState(() {
+                                      isLoaded = true;
+                                    });
+                                  }
+                                : null,
+                          )
+                        ],
+                      ),
+                    ),
+                ),
+               ConstrainedBox(
+                 constraints: const BoxConstraints(maxWidth: 500),
+                 child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 4,
-                              child: LiquidArtDropDown(
-                                label: "AI Model",
-                                dropValue: modelValue,
-                                hintText: "AI Model",
-                                values: modelValues,
-                                items: modes,
-                                onChanged: (value) {
-                                  setState(() {
-                                    modelValue = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            const Flexible(
-                              flex: 1,
-                              child: SizedBox(),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: LiquidArtDropDown(
-                                label: "Size",
-                                dropValue: sizeValue,
-                                hintText: "Size",
-                                values: sizeValues,
-                                items: sizes,
-                                onChanged: (value) {
-                                  setState(() {
-                                    sizeValue = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 0),
-                              child: Text(
-                                'API Key',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              ),
-                            ),
-                            TextField(
-                              controller: _APIKeyController,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide:
-                                        const BorderSide(color: Colors.black),
-                                  ),
-                                  filled: true,
-                                  hintStyle: const TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                  hintText: 'API Key',
-                                  fillColor: Colors.white70),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: LiquidArtTextField(
-                                enabled: false,
-                                label: 'Batch Count',
-                                hintText: 'Batch Count',
-                                textController: textController,
-                              ),
-                            ),
-                            const Flexible(
-                              flex: 1,
-                              child: SizedBox(),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: LiquidArtTextField(
-                                enabled: false,
-                                label: 'Batch Size',
-                                hintText: 'Batch Size',
-                                textController: textController,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 0),
-                              child: Text(
-                                'Image Prompt',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              ),
-                            ),
-                            TextField(
-                              controller: _imagePromptController,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide:
-                                        const BorderSide(color: Colors.black),
-                                  ),
-                                  filled: true,
-                                  hintStyle: const TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                  hintText: 'Image Prompt',
-                                  fillColor: Colors.white70),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        LiquidArtTextField(
-                          enabled: false,
-                          label: 'Negative Prompt',
-                          hintText: 'Negative Prompt',
-                          textController: textController,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 4,
-                              child: LiquidArtTextField(
-                                enabled: false,
-                                label: 'Seed',
-                                hintText: 'Seed',
-                                textController: textController,
-                              ),
-                            ),
-                            const Flexible(
-                              flex: 1,
-                              child: SizedBox(),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: LiquidArtTextField(
-                                enabled: false,
-                                label: 'CFG Scale',
-                                hintText: 'CFG Scale',
-                                textController: textController,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 30),
+                        if (isLoaded) ...[
+                          ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.network(image))
+                        ] else ...[
+                          Image.asset('assets/logo/Logo.png')
+                        ],
+                        const SizedBox(height: 20),
                         LiquidArtButton(
-                          label: 'Generate Image',
-                          onTap: modelValue != null && sizeValue != null
-                              // &&
-                              //     _APIKeyController!.text.isNotEmpty &&
-                              //     _imagePromptController!.text.isNotEmpty
-                              ? () async {
-                                  setState(() {
-                                    isLoaded = false;
-                                  });
-                                  image = await DallE.generateImage(
-                                      _imagePromptController!.text,
-                                      sizeValue!,
-                                      _APIKeyController!.text);
-                                  setState(() {
-                                    isLoaded = true;
-                                  });
-                                }
-                              : null,
-                        )
+                          label: 'Send Image to Gallery',
+                          onTap: false ? () {} : null,
+                        ),
+                        const SizedBox(height: 15,),
                       ],
                     ),
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (isLoaded) ...[
-                      Image.network(image)
-                    ] else ...[
-                      Image.asset('assets/logo/Logo.png')
-                    ],
-                    const SizedBox(height: 20),
-                    LiquidArtButton(
-                      label: 'Send Image to Gallery',
-                      onTap: false ? () {} : null,
-                    )
-                  ],
-                ),
-              ),
-            ],
+               ),
+              ],
+            ),
           ),
         ),
       ),
