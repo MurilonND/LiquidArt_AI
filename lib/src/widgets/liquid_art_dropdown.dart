@@ -36,6 +36,7 @@ class _LiquidArtDropDownState extends State<LiquidArtDropDown> {
           ),
         ),
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
             color: Colors.white,
