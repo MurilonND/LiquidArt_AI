@@ -42,12 +42,12 @@ class _DrawerPageState extends State<DrawerPage> {
   var textController = TextEditingController();
 
   TextEditingController? _imagePromptController;
-  TextEditingController? _APIKeyController;
+  TextEditingController? _apiKeyController;
 
   @override
   void initState() {
     _imagePromptController = TextEditingController(text: '');
-    _APIKeyController = TextEditingController(text: '');
+    _apiKeyController = TextEditingController(text: '');
 
     super.initState();
   }
@@ -135,7 +135,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 ),
                               ),
                               TextField(
-                                controller: _APIKeyController,
+                                controller: _apiKeyController,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
@@ -263,7 +263,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                     image = await DallE.generateImage(
                                         _imagePromptController!.text,
                                         sizeValue!,
-                                        _APIKeyController!.text);
+                                        _apiKeyController!.text);
                                     setState(() {
                                       isLoaded = true;
                                     });
