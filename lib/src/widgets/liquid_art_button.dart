@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LiquidArtButton extends StatefulWidget {
-  LiquidArtButton(
+  const LiquidArtButton(
       {super.key,
       required this.label, this.onTap});
 
   final String label;
-  void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   State<LiquidArtButton> createState() => _LiquidArtButtonState();

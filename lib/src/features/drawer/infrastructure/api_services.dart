@@ -20,12 +20,10 @@ class DallE {
     );
 
     var res = await http.post(url, headers: headers, body: body,);
-    print(res.statusCode);
     if(res.statusCode == 200){
       var data = jsonDecode(res.body.toString());
       return data['data'][0]['url'].toString();
     }else{
-      print("Dall-E API call Error");
     }
   }
 }

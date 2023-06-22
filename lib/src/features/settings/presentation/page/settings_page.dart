@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 hintText: 'Ex: 8080',
                 textController: textController,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               LiquidArtTextField(
@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 hintText: 'Ex: lg1',
                 textController: textController,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               LiquidArtTextField(
@@ -55,11 +55,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 hintText: 'Ex: lg',
                 textController: textController,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: LiquidArtButton(
                   label: 'Save Settings',
                   onTap: () {},

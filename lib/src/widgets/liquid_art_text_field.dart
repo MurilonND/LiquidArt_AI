@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LiquidArtTextField extends StatefulWidget {
-  LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, required this.textController, this.enabled = true});
+  const LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, required this.textController, this.enabled = true});
 
   final String label;
   final String hintText;
-  bool enabled;
+  final bool enabled;
   final TextEditingController textController;
-  int? maxLines;
+  final int? maxLines;
 
   @override
   State<LiquidArtTextField> createState() => _LiquidArtTextFieldState();
