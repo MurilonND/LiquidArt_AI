@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
-import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
+import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
@@ -77,7 +78,7 @@ class _GalleryPageState extends State<GalleryPage> {
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           }),
           _buildSpeedDial(
@@ -88,7 +89,7 @@ class _GalleryPageState extends State<GalleryPage> {
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
+              MaterialPageRoute(builder: (context) => const ConnectionPage()),
             );
           }),
           _buildSpeedDial(
@@ -100,6 +101,17 @@ class _GalleryPageState extends State<GalleryPage> {
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const DrawerPage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.key,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const ApiKeyRepositoryPage()),
             );
           }),
         ],

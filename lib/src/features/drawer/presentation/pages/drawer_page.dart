@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/infrastructure/api_services.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
-import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
+import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_dropdown.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
@@ -129,27 +130,66 @@ class _DrawerPageState extends State<DrawerPage> {
                               const Padding(
                                 padding: EdgeInsets.only(left: 0),
                                 child: Text(
-                                  'API Key',
+                                  'Image Prompt',
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.black),
                                 ),
                               ),
                               TextField(
-                                controller: _apiKeyController,
+                                controller: _imagePromptController,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                       borderSide:
-                                          const BorderSide(color: Colors.black),
+                                      const BorderSide(color: Colors.black),
                                     ),
                                     filled: true,
                                     hintStyle: const TextStyle(
                                         fontSize: 16, color: Colors.grey),
-                                    hintText: 'API Key',
+                                    hintText: 'Image Prompt',
                                     fillColor: Colors.white70),
                               )
                             ],
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          LiquidArtTextField(
+                            enabled: false,
+                            label: 'Negative Prompt',
+                            hintText: 'Negative Prompt',
+                            textController: textController,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     const Padding(
+                          //       padding: EdgeInsets.only(left: 0),
+                          //       child: Text(
+                          //         'API Key',
+                          //         style: TextStyle(
+                          //             fontSize: 18, color: Colors.black),
+                          //       ),
+                          //     ),
+                          //     TextField(
+                          //       controller: _apiKeyController,
+                          //       decoration: InputDecoration(
+                          //           border: OutlineInputBorder(
+                          //             borderRadius: BorderRadius.circular(20.0),
+                          //             borderSide:
+                          //                 const BorderSide(color: Colors.black),
+                          //           ),
+                          //           filled: true,
+                          //           hintStyle: const TextStyle(
+                          //               fontSize: 16, color: Colors.grey),
+                          //           hintText: 'API Key',
+                          //           fillColor: Colors.white70),
+                          //     )
+                          //   ],
+                          // ),
                           const SizedBox(
                             height: 20,
                           ),
@@ -179,45 +219,6 @@ class _DrawerPageState extends State<DrawerPage> {
                                 ),
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 0),
-                                child: Text(
-                                  'Image Prompt',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.black),
-                                ),
-                              ),
-                              TextField(
-                                controller: _imagePromptController,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide:
-                                          const BorderSide(color: Colors.black),
-                                    ),
-                                    filled: true,
-                                    hintStyle: const TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                    hintText: 'Image Prompt',
-                                    fillColor: Colors.white70),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          LiquidArtTextField(
-                            enabled: false,
-                            label: 'Negative Prompt',
-                            hintText: 'Negative Prompt',
-                            textController: textController,
                           ),
                           const SizedBox(
                             height: 20,
@@ -310,18 +311,18 @@ class _DrawerPageState extends State<DrawerPage> {
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           }),
           _buildSpeedDial(
               context,
               const Icon(
-                Icons.settings,
+                Icons.cast_connected,
                 color: Colors.white,
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
+              MaterialPageRoute(builder: (context) => const ConnectionPage()),
             );
           }),
           _buildSpeedDial(
@@ -333,6 +334,17 @@ class _DrawerPageState extends State<DrawerPage> {
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.key,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const ApiKeyRepositoryPage()),
             );
           }),
         ],
