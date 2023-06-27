@@ -45,9 +45,11 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: LiquidArtButton(
-                  label: 'Save Settings',
-                  onTap: () {},
+                child: Center(
+                  child: LiquidArtButton(
+                    label: 'Save Api keys',
+                    onTap: () {},
+                  ),
                 ),
               ),
             ],

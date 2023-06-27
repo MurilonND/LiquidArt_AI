@@ -23,9 +23,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GalaxyCubit, GalaxyState>(
-      bloc: _galaxyCubit,
-      builder: (context, state) {
+    // return BlocBuilder<GalaxyCubit, GalaxyState>(
+    //   builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -59,6 +58,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     height: 25,
                   ),
                   LiquidArtTextField(
+                    label: 'Liquid Galaxy IP Address',
+                    hintText: 'Ex: lg',
+                    textController: textController,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LiquidArtTextField(
                     label: 'Liquid Galaxy Host Password',
                     hintText: 'Ex: lg',
                     textController: textController,
@@ -66,13 +73,56 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: LiquidArtButton(
-                      label: 'Save Settings',
-                      onTap: () {},
-                    ),
+                    Center(
+                      child: LiquidArtButton(
+                        label: 'Connect With Galaxy',
+                        onTap: () {},
                   ),
+                    ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Card(
+                      shape: RoundedRectangleBorder(side: const BorderSide(width: 1, color: Colors.grey,),borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                          child: Wrap(
+                            spacing: 10,
+                            runSpacing: 15,
+                            children: const [
+                               LiquidArtButton(
+                                label: 'Reboot',
+                                onTap:
+                                //     () =>
+                                // state.client != null && !state.client!.isClosed
+                                //     ? _galaxyCubit.reboot()
+                                //     :
+                                null,
+                              ),
+                               LiquidArtButton(
+                                label: 'Shutdown',
+                                onTap:
+                                //     () =>
+                                // state.client != null && !state.client!.isClosed
+                                //     ? _galaxyCubit.shutdown()
+                                //     :
+                                null,
+                              ),
+                               LiquidArtButton(
+                                label: 'Relaunch',
+                                onTap:
+                                //     () =>
+                                // state.client != null && !state.client!.isClosed
+                                //     ? _galaxyCubit.relaunchEarth()
+                                //     :
+                                null,
+                              ),
+                            ],
+                      ),
+                        ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -129,8 +179,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
             ],
           ),
         );
-      },
-    );
+    //   },
+    // );
   }
 }
 

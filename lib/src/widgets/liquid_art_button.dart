@@ -15,8 +15,7 @@ class LiquidArtButton extends StatefulWidget {
 class _LiquidArtButtonState extends State<LiquidArtButton> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
+    return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF4C7BBF),
             shape: const StadiumBorder()),
@@ -30,7 +29,6 @@ class _LiquidArtButtonState extends State<LiquidArtButton> {
             style: const TextStyle(fontSize: 18),
           ),
         ),
-      ),
     );
   }
 }

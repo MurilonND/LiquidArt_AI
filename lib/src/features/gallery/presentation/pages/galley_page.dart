@@ -20,52 +20,92 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Flexible(
-                  flex: 3,
+      appBar: AppBar(
+        title: const Text(
+          "Gallery",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            runAlignment: WrapAlignment.start,
+            verticalDirection: VerticalDirection.up,
+            children: <Widget>[
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: MediaQuery
+                      .of(context)
+                      .size
+                      .width > MediaQuery
+                      .of(context)
+                      .size
+                      .height ? MediaQuery
+                      .of(context)
+                      .size
+                      .width*3/5 : MediaQuery
+                      .of(context)
+                      .size
+                      .width),
                   child: Container(
                     // width: double.infinity,
                     padding: const EdgeInsets.all(50),
                     child: GridView.builder(
-                      shrinkWrap: true,
+                        shrinkWrap: true,
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
                         itemCount: 4,
                         itemBuilder: (context, index) => const FlutterLogo()),
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      LiquidArtTextField(label: 'Search by Prompt', hintText: 'Search by Prompt', textController: textController),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LiquidArtButton(label: 'Show on Liquid Galaxy', onTap: () {},),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      // LiquidArtButton(label: 'Download the Image', onTap: () {},),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      LiquidArtButton(label: 'Share the Image', onTap: () {},),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: MediaQuery
+                    .of(context)
+                    .size
+                    .width > MediaQuery
+                    .of(context)
+                    .size
+                    .height ? MediaQuery
+                    .of(context)
+                    .size
+                    .width/4 : MediaQuery
+                    .of(context)
+                    .size
+                    .width,),
+                child: Column(
+                  children: [
+                    LiquidArtTextField(label: 'Search by Prompt',
+                        hintText: 'Search by Prompt',
+                        textController: textController),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      runAlignment: WrapAlignment.center,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        LiquidArtButton(
+                          label: 'Show on Liquid Galaxy', onTap: () {},),
+                        LiquidArtButton(
+                          label: 'Share the Image', onTap: () {},),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
           ),
         ),
-      ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         backgroundColor: const Color(0xFF4C7BBF),
@@ -111,7 +151,8 @@ class _GalleryPageState extends State<GalleryPage> {
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const ApiKeyRepositoryPage()),
+              MaterialPageRoute(
+                  builder: (context) => const ApiKeyRepositoryPage()),
             );
           }),
         ],
