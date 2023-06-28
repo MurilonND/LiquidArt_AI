@@ -19,6 +19,11 @@ class ConnectionPage extends StatefulWidget {
 class _ConnectionPageState extends State<ConnectionPage> {
   late final GalaxyCubit _galaxyCubit;
 
+  //Text Strings
+  final String connectionPageTitle = "Connection";
+  final String serverPortLabel = "Server Port";
+  final String serverPortHint = "Ex: 8080";
+
   var textController = TextEditingController();
 
   @override
@@ -27,9 +32,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
     //   builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "Connection",
-              style: TextStyle(color: Colors.black),
+            title:  Text(
+              connectionPageTitle,
+              style: const TextStyle(color: Colors.black),
             ),
             centerTitle: true,
             elevation: 0,
@@ -42,8 +47,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
               child: ListView(
                 children: [
                   LiquidArtTextField(
-                    label: 'Server Port',
-                    hintText: 'Ex: 8080',
+                    label: serverPortLabel,
+                    hintText: serverPortHint,
                     textController: textController,
                   ),
                   const SizedBox(
