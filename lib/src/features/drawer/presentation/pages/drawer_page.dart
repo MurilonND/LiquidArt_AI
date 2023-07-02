@@ -17,8 +17,8 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
-  List<String> modes = ["DallE"];
-  List<String> modelValues = ["DallE"];
+  List<String> modes = ["Dall-E, Stable-Diffusion"];
+  List<String> modelValues = ["dall_e, stable_diffusion"];
   String? modelValue;
 
   List<String> sizes = ["Small", "Medium", "Large"];
@@ -251,25 +251,27 @@ class _DrawerPageState extends State<DrawerPage> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          LiquidArtButton(
-                            label: 'Generate Image',
-                            onTap: modelValue != null && sizeValue != null
-                                // &&
-                                //     _APIKeyController!.text.isNotEmpty &&
-                                //     _imagePromptController!.text.isNotEmpty
-                                ? () async {
-                                    setState(() {
-                                      isLoaded = false;
-                                    });
-                                    image = await DallE.generateImage(
-                                        _imagePromptController!.text,
-                                        sizeValue!,
-                                        _apiKeyController!.text);
-                                    setState(() {
-                                      isLoaded = true;
-                                    });
-                                  }
-                                : null,
+                          Center(
+                            child: LiquidArtButton(
+                              label: 'Generate Image',
+                              onTap: modelValue != null && sizeValue != null
+                                  // &&
+                                  //     _APIKeyController!.text.isNotEmpty &&
+                                  //     _imagePromptController!.text.isNotEmpty
+                                  ? () async {
+                                      setState(() {
+                                        isLoaded = false;
+                                      });
+                                      image = await DallE.generateImage(
+                                          _imagePromptController!.text,
+                                          sizeValue!,
+                                          _apiKeyController!.text);
+                                      setState(() {
+                                        isLoaded = true;
+                                      });
+                                    }
+                                  : null,
+                            ),
                           )
                         ],
                       ),

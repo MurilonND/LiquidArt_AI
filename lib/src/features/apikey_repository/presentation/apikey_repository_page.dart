@@ -74,7 +74,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           _buildSpeedDial(
               context,
               const Icon(
-                Icons.settings,
+                Icons.cast_connected,
                 color: Colors.white,
               ),
               const Color(0xFF4C7BBF), () {

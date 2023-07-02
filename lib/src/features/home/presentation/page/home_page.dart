@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
           _buildSpeedDial(
               context,
               const Icon(
-                Icons.settings,
+                Icons.cast_connected,
                 color: Colors.white,
               ),
               const Color(0xFF4C7BBF), () {
