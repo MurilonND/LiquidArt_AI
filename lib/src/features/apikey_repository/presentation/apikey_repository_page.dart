@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+class ApiKeyRepositoryPage extends StatefulWidget {
+  const ApiKeyRepositoryPage({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<ApiKeyRepositoryPage> createState() => _ApiKeyRepositoryPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   var textController = TextEditingController();
 
   @override
@@ -21,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Settings",
+          "Connection",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -35,24 +36,8 @@ class _SettingsPageState extends State<SettingsPage> {
           child: ListView(
             children: [
               LiquidArtTextField(
-                label: 'Server Port',
-                hintText: 'Ex: 8080',
-                textController: textController,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              LiquidArtTextField(
-                label: 'Liquid Galaxy Host Name',
-                hintText: 'Ex: lg1',
-                textController: textController,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              LiquidArtTextField(
-                label: 'Liquid Galaxy Host Password',
-                hintText: 'Ex: lg',
+                label: 'Dall-E API key',
+                hintText: '',
                 textController: textController,
               ),
               const SizedBox(
@@ -60,9 +45,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: LiquidArtButton(
-                  label: 'Save Settings',
-                  onTap: () {},
+                child: Center(
+                  child: LiquidArtButton(
+                    label: 'Save Api keys',
+                    onTap: () {},
+                  ),
                 ),
               ),
             ],
@@ -81,7 +68,18 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.cast_connected,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const ConnectionPage()),
             );
           }),
           _buildSpeedDial(

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
-import 'package:liquid_art_ai/src/features/settings/presentation/page/settings_page.dart';
+import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,12 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
           _buildSpeedDial(
               context,
               const Icon(
-                Icons.settings,
+                Icons.cast_connected,
                 color: Colors.white,
               ),
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
+              MaterialPageRoute(builder: (context) => const ConnectionPage()),
             );
           }),
           _buildSpeedDial(
@@ -88,6 +89,17 @@ class _MyHomePageState extends State<MyHomePage> {
               const Color(0xFF4C7BBF), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const GalleryPage()),
+            );
+          }),
+          _buildSpeedDial(
+              context,
+              const Icon(
+                Icons.key,
+                color: Colors.white,
+              ),
+              const Color(0xFF4C7BBF), () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const ApiKeyRepositoryPage()),
             );
           }),
         ],
