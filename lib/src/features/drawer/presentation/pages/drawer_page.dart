@@ -17,8 +17,8 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
-  List<String> modes = ["Dall-E, Stable-Diffusion"];
-  List<String> modelValues = ["dall_e, stable_diffusion"];
+  List<String> modes = ["Dall-E", "Stable-Diffusion"];
+  List<String> modelValues = ["dall_e", "stable_diffusion"];
   String? modelValue;
 
   List<String> sizes = ["Small", "Medium", "Large"];
@@ -43,12 +43,10 @@ class _DrawerPageState extends State<DrawerPage> {
   var textController = TextEditingController();
 
   TextEditingController? _imagePromptController;
-  TextEditingController? _apiKeyController;
 
   @override
   void initState() {
     _imagePromptController = TextEditingController(text: '');
-    _apiKeyController = TextEditingController(text: '');
 
     super.initState();
   }
@@ -254,18 +252,20 @@ class _DrawerPageState extends State<DrawerPage> {
                           Center(
                             child: LiquidArtButton(
                               label: 'Generate Image',
-                              onTap: modelValue != null && sizeValue != null
-                                  // &&
-                                  //     _APIKeyController!.text.isNotEmpty &&
-                                  //     _imagePromptController!.text.isNotEmpty
-                                  ? () async {
+                              onTap: modelValue != null && sizeValue != null && _imagePromptController!.text.isNotEmpty
+                                ? () async {
                                       setState(() {
                                         isLoaded = false;
                                       });
-                                      image = await DallE.generateImage(
-                                          _imagePromptController!.text,
-                                          sizeValue!,
-                                          _apiKeyController!.text);
+                                      if(modelValue == "dall_e"){
+                                        image = await DallE.generateImage(
+                                            _imagePromptController!.text,
+                                            sizeValue!);
+                                      }else{
+                                        image = await StableDiffusion.generateImage(
+                                            _imagePromptController!.text,
+                                            sizeValue!);
+                                      }
                                       setState(() {
                                         isLoaded = true;
                                       });

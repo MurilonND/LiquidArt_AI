@@ -4,6 +4,7 @@ import 'package:liquid_art_ai/src/features/connection/presentation/page/connecti
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
+import 'package:liquid_art_ai/src/utils/user_configurations.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
@@ -15,7 +16,16 @@ class ApiKeyRepositoryPage extends StatefulWidget {
 }
 
 class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
-  var textController = TextEditingController();
+  var dallEController = TextEditingController();
+
+  @override
+  void initState() {
+    if(UserConfigurations.getDallEKey() != null){
+      dallEController = TextEditingController(text: UserConfigurations.getDallEKey()!);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +48,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
               LiquidArtTextField(
                 label: 'Dall-E API key',
                 hintText: '',
-                textController: textController,
+                textController: dallEController,
               ),
               const SizedBox(
                 height: 40,
@@ -48,7 +58,9 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 child: Center(
                   child: LiquidArtButton(
                     label: 'Save Api keys',
-                    onTap: () {},
+                    onTap: () async {
+                      await UserConfigurations.setDallEKey(dallEController.text);
+                    },
                   ),
                 ),
               ),

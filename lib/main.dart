@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_art_ai/src/features/connection/infrastructure/galaxy_cubit.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
+import 'package:liquid_art_ai/src/utils/user_configurations.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserConfigurations.init();
+
   runApp(const MyApp());
 }
 
