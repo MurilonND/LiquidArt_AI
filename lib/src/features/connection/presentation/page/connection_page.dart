@@ -65,6 +65,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg1',
                     textController: textController,
+                    onChanged: (value) =>
+                        _galaxyCubit.passwordChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -73,6 +75,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy IP Address',
                     hintText: 'Ex: lg',
                     textController: textController,
+                    onChanged: (value) =>
+                        _galaxyCubit.ipAddressChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -81,7 +85,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy Host Password',
                     hintText: 'Ex: lg',
                     textController: textController,
-                  ),
+                    onChanged: (value) =>
+                      _galaxyCubit.passwordChanged(value),
+                    ),
                   const SizedBox(
                     height: 40,
                   ),
