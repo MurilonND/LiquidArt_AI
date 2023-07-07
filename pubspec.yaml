@@ -41,6 +41,8 @@ dependencies:
   equatable: ^2.0.5
   dartssh2: ^2.8.2
   shared_preferences: ^2.1.2
+  shelf: ^1.4.1
+  network_info_plus: ^3.0.1
 
 dev_dependencies:
   flutter_test:
