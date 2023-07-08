@@ -6,6 +6,7 @@ import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,7 +39,13 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        Text(InternetAddress.anyIPv4.toString()),
+                        FutureBuilder(
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              return new Text(
+                                  'Server Url: ${snapshot.data.toString()}');
+                            },
+                            future: getConnectionDoor()),
                         const SizedBox(
                           height: 20,
                         ),
@@ -51,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Image.asset('assets/logo/Logo.png'),
+                Image.asset('assets/logo/splash.png'),
               ],
             ),
           ),
@@ -109,6 +116,18 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future<String> getConnectionDoor() async {
+    final networkInfo = NetworkInfo();
+    String? wifiIPv4 = '';
+
+    try {
+      wifiIPv4 = await networkInfo.getWifiIP();
+    } catch (e) {
+      wifiIPv4 = 'Failed to get Wifi IPv4 error: $e';
+    }
+    return wifiIPv4!;
   }
 }
 

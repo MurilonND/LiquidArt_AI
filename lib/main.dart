@@ -1,9 +1,9 @@
-import 'dart:io';
-import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liquid_art_ai/server.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -35,31 +35,37 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage(),
+        home: SplashScreen(),
       ),
     );
   }
 }
 
-class ImageServer {
-  Future<shelf.Response> handleRequest(shelf.Request request) async {
-      final imageBytes = await _getImageBytes(); // Retrieve image bytes from your source
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
 
-      if (imageBytes != null) {
-        return shelf.Response.ok(imageBytes, headers: {'content-type': 'image/png'});
-      } else {
-        return shelf.Response.notFound('Image not found');
-      }
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Add a delay to simulate a loading process
+    Timer(const Duration(seconds: 5), () {
+      // After the delay, navigate to the home screen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    });
   }
 
-  Future<Uint8List> _getImageBytes() async {
-    try {
-      final ByteData byteData = await rootBundle.load('assets/logo/Logo.png');
-      return byteData.buffer.asUint8List();
-    } catch (e) {
-      print('Error reading image file: $e');
-      return Uint8List(0);
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.asset('assets/logo/splash.png'),
+      ),
+    );
   }
 }
 
@@ -77,7 +83,10 @@ void startImageServer() async {
   final address = wifiIPv4 ?? ''; // Bind to any IPv4 address on the machine
   const port = 3000; // Port number to listen on
 
-  shelf_io.serve((shelf.Request request) => imageServer.handleRequest(request), address, port).then((server) {
+  shelf_io
+      .serve((shelf.Request request) => imageServer.handleRequest(request),
+          address, port)
+      .then((server) {
     print('Image server running on ${server.address.host}:${server.port}');
   });
 }
