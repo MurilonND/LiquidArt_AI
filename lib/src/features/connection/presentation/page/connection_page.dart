@@ -152,13 +152,13 @@ class _ConnectionPageState extends State<ConnectionPage> {
                             //       ? () => _galaxyCubit.shutdown()
                             //       : null,
                             // ),
-                            LiquidArtButton(
-                              label: 'Test',
-                              onTap: state.client != null &&
-                                      !state.client!.isClosed
-                                  ? () => _galaxyCubit.sayHi()
-                                  : null,
-                            ),
+                            // LiquidArtButton(
+                            //   label: 'Test',
+                            //   onTap: state.client != null &&
+                            //           !state.client!.isClosed
+                            //       ? () => _galaxyCubit.sayHi()
+                            //       : null,
+                            // ),
                             LiquidArtButton(
                               label: 'Open Canvas',
                               onTap: state.client != null &&
