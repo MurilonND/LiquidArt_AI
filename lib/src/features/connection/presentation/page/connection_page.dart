@@ -28,9 +28,12 @@ class _ConnectionPageState extends State<ConnectionPage> {
   //Text Strings
   final String connectionPageTitle = "Connection";
   final String serverPortLabel = "Server Port";
-  final String serverPortHint = "Ex: 8080";
+  final String serverPortHint = "Ex: 22";
 
-  var textController = TextEditingController();
+  var portController = TextEditingController();
+  var hostnameController = TextEditingController();
+  var ipAddressController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     inputType: TextInputType.number,
                     label: serverPortLabel,
                     hintText: serverPortHint,
-                    textController: textController,
+                    textController: portController,
                     onChanged: (value) =>
                         _galaxyCubit.passwordChanged(value),
                   ),
@@ -67,7 +70,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg1',
-                    textController: textController,
+                    textController: hostnameController,
                     onChanged: (value) =>
                         _galaxyCubit.passwordChanged(value),
                   ),
@@ -77,7 +80,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy IP Address',
                     hintText: 'Ex: lg',
-                    textController: textController,
+                    textController: ipAddressController,
                     onChanged: (value) =>
                         _galaxyCubit.ipAddressChanged(value),
                   ),
@@ -87,7 +90,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy Host Password',
                     hintText: 'Ex: lg',
-                    textController: textController,
+                    textController: passwordController,
                     onChanged: (value) =>
                       _galaxyCubit.passwordChanged(value),
                     ),
