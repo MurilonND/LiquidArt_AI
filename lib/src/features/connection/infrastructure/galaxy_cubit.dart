@@ -4,15 +4,16 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 
 part 'galaxy_state.dart';
 
 class GalaxyCubit extends Cubit<GalaxyState> {
   GalaxyCubit() : super(const GalaxyState());
 
-  void ipv4Changed(String value) {
+  void lgScreensChanged(int value) {
     final newState = state.copyWith(
-      ipv4: value,
+      lgScreens: value,
     );
     emit(newState);
   }
@@ -20,13 +21,6 @@ class GalaxyCubit extends Cubit<GalaxyState> {
   void hostNameChanged(String value) {
     final newState = state.copyWith(
       hostname: value,
-    );
-    emit(newState);
-  }
-
-  void portChanged(int value) {
-    final newState = state.copyWith(
-      port: value,
     );
     emit(newState);
   }
@@ -47,7 +41,10 @@ class GalaxyCubit extends Cubit<GalaxyState> {
 
   Future<void> connect() async {
     if (!state.formIsValid) {
-      return emit(state.copyWith(showErrors: true));
+      return emit(state.copyWith(
+        showErrors: true,
+        errorMessage: 'invalid Form',
+      ));
     }
 
     emit(state.copyWith(
@@ -56,6 +53,9 @@ class GalaxyCubit extends Cubit<GalaxyState> {
 
     // close client if its already connected
     if (state.client != null && !state.client!.isClosed) {
+      emit(state.copyWith(
+        errorMessage: 'already connected, closing client',
+      ));
       print('already connected, closing client');
       state.client!.close();
     }
@@ -80,11 +80,13 @@ class GalaxyCubit extends Cubit<GalaxyState> {
       client.close();
       emit(state.copyWith(
         loading: false,
+        errorMessage: e.toString(),
       ));
     } on SocketException catch (e) {
       debugPrint(e.toString());
       emit(state.copyWith(
         loading: false,
+        errorMessage: e.toString(),
       ));
     }
   }
@@ -109,21 +111,32 @@ class GalaxyCubit extends Cubit<GalaxyState> {
   }
 
   Future<void> openCanvas() async {
-    final openCanvasCommand = 'xdg-open http://${state.ipv4}:3000/';
+    final networkInfo = NetworkInfo();
+    String? wifiIPv4 = '';
 
-    final session =
-    await state.client!.execute('export DISPLAY=:0 && $openCanvasCommand');
-    await session.stdin.close();
-    await session.done;
+    try {
+      wifiIPv4 = await networkInfo.getWifiIP();
+    } catch (e) {
+      wifiIPv4 = '';
+    }
+
+    for(int lg = 1; lg <= state.lgScreens; lg++){
+      final openCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/install.sh) ' + state.password + ' ' + wifiIPv4!;
+      final session =
+      await state.client!.execute(openCanvasCommand);
+      await session.stdin.close();
+      await session.done;
+    }
+
   }
 
-  // Future<void> reboot() async {
-  //   if (state.client == null || state.client!.isClosed) return;
-  //
-  //   final shutdownCommand =
-  //       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/reboot.sh) ${state.password}';
-  //   final session = await state.client!.execute(shutdownCommand);
-  //   await session.stdin.close();
-  //   await session.done;
-  // }
+// Future<void> reboot() async {
+//   if (state.client == null || state.client!.isClosed) returnr;
+//
+//   final shutdownCommand =
+//       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/reboot.sh) ${state.password}';
+//   final session = await state.client!.execute(shutdownCommand);
+//   await session.stdin.close();
+//   await session.done;
+// }
 }
