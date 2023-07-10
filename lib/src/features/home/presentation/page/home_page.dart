@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Image.asset('assets/logo/splash.png'),
+                Image.asset('assets/logo/Logo.png'),
               ],
             ),
           ),
@@ -129,8 +129,6 @@ class _HomePageState extends State<HomePage> {
 
     try {
       wifiIPv4 = await networkInfo.getWifiIP();
-
-      _galaxyCubit.ipv4Changed(wifiIPv4!);
     } catch (e) {
       wifiIPv4 = 'Failed to get Wifi IPv4 error: $e';
     }

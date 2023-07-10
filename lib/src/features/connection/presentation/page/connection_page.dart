@@ -27,10 +27,11 @@ class _ConnectionPageState extends State<ConnectionPage> {
 
   //Text Strings
   final String connectionPageTitle = "Connection";
-  final String serverPortLabel = "Server Port";
-  final String serverPortHint = "Ex: 8080";
 
-  var textController = TextEditingController();
+  var hostnameController = TextEditingController();
+  var ipAddressController = TextEditingController();
+  var passwordController = TextEditingController();
+  var lgScreensController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +56,11 @@ class _ConnectionPageState extends State<ConnectionPage> {
                 children: [
                   LiquidArtTextField(
                     inputType: TextInputType.number,
-                    label: serverPortLabel,
-                    hintText: serverPortHint,
-                    textController: textController,
+                    label: 'Number of Screens',
+                    hintText: 'Ex: 5',
+                    textController: lgScreensController,
                     onChanged: (value) =>
-                        _galaxyCubit.passwordChanged(value),
+                        _galaxyCubit.lgScreensChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -67,7 +68,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg1',
-                    textController: textController,
+                    textController: hostnameController,
                     onChanged: (value) =>
                         _galaxyCubit.passwordChanged(value),
                   ),
@@ -77,7 +78,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy IP Address',
                     hintText: 'Ex: lg',
-                    textController: textController,
+                    textController: ipAddressController,
                     onChanged: (value) =>
                         _galaxyCubit.ipAddressChanged(value),
                   ),
@@ -87,13 +88,29 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   LiquidArtTextField(
                     label: 'Liquid Galaxy Host Password',
                     hintText: 'Ex: lg',
-                    textController: textController,
+                    textController: passwordController,
                     onChanged: (value) =>
                       _galaxyCubit.passwordChanged(value),
                     ),
                   const SizedBox(
                     height: 40,
                   ),
+                  if(state.loading)...[
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                  if(state.errorMessage != null)...[
+                    Center(
+                      child: Text(state.errorMessage!),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                   Center(
                     child: LiquidArtButton(
                       label: 'Connect With Galaxy',

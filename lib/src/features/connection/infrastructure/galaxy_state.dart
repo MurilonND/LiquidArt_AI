@@ -8,24 +8,35 @@ class GalaxyState extends Equatable {
   final SSHClient? client;
   final bool showErrors;
   final bool loading;
-  final String ipv4;
+  final int lgScreens;
+  final String? errorMessage;
 
   const GalaxyState({
     this.hostname = 'lg',
     this.port = 22,
-    this.ipAddress = '172.16.52.15',
+    this.ipAddress = '172.16.51.239',
     this.password = 'lq',
     this.client,
     this.showErrors = false,
     this.loading = false,
-    this.ipv4 = '',
+    this.lgScreens = 3,
+    this.errorMessage,
   });
 
   bool get formIsValid => ipAddress.isNotEmpty && password.isNotEmpty;
 
   @override
-  List<Object?> get props =>
-      [hostname, port, ipAddress, password, client, showErrors, loading, ipv4];
+  List<Object?> get props => [
+        hostname,
+        port,
+        ipAddress,
+        password,
+        client,
+        showErrors,
+        loading,
+        lgScreens,
+        errorMessage
+      ];
 
   GalaxyState copyWith({
     String? hostname,
@@ -35,7 +46,8 @@ class GalaxyState extends Equatable {
     SSHClient? client,
     bool? showErrors,
     bool? loading,
-    String? ipv4,
+    int? lgScreens,
+    String? errorMessage,
   }) {
     return GalaxyState(
       hostname: hostname ?? this.hostname,
@@ -45,7 +57,8 @@ class GalaxyState extends Equatable {
       client: client ?? this.client,
       showErrors: showErrors ?? this.showErrors,
       loading: loading ?? this.loading,
-      ipv4: ipv4 ?? this.ipv4,
+      lgScreens: lgScreens ?? this.lgScreens,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }
