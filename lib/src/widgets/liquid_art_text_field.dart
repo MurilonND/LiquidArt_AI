@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LiquidArtTextField extends StatefulWidget {
-  const LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, required this.textController, this.enabled = true, this.onChanged});
+  const LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, required this.textController, this.enabled = true, this.onChanged, this.inputType});
 
   final String label;
   final String hintText;
@@ -9,6 +9,7 @@ class LiquidArtTextField extends StatefulWidget {
   final TextEditingController textController;
   final int? maxLines;
   final Function? onChanged;
+  final TextInputType? inputType;
 
   @override
   State<LiquidArtTextField> createState() => _LiquidArtTextFieldState();
@@ -28,6 +29,7 @@ class _LiquidArtTextFieldState extends State<LiquidArtTextField> {
           ),
         ),
         TextField(
+          keyboardType: widget.inputType,
           enabled: widget.enabled,
           controller: widget.textController,
           autocorrect: false,
