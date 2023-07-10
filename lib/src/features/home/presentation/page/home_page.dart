@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
@@ -7,6 +5,8 @@ import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:network_info_plus/network_info_plus.dart';
+
+import '../../../connection/infrastructure/galaxy_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GalaxyCubit _galaxyCubit = GalaxyCubit();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +45,10 @@ class _HomePageState extends State<HomePage> {
                         FutureBuilder(
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> snapshot) {
-                              return new Text(
-                                  'Server Url: ${snapshot.data.toString()}');
+                              return Text(
+                                  'Server Url: ${snapshot.data.toString()}:3000',
+                                  style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),);
                             },
                             future: getConnectionDoor()),
                         const SizedBox(
@@ -124,9 +129,12 @@ class _HomePageState extends State<HomePage> {
 
     try {
       wifiIPv4 = await networkInfo.getWifiIP();
+
+      _galaxyCubit.ipv4Changed(wifiIPv4!);
     } catch (e) {
       wifiIPv4 = 'Failed to get Wifi IPv4 error: $e';
     }
+
     return wifiIPv4!;
   }
 }

@@ -54,9 +54,12 @@ class _ConnectionPageState extends State<ConnectionPage> {
               child: ListView(
                 children: [
                   LiquidArtTextField(
+                    inputType: TextInputType.number,
                     label: serverPortLabel,
                     hintText: serverPortHint,
                     textController: textController,
+                    onChanged: (value) =>
+                        _galaxyCubit.passwordChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -118,25 +121,32 @@ class _ConnectionPageState extends State<ConnectionPage> {
                           spacing: 10,
                           runSpacing: 15,
                           children: [
+                            // LiquidArtButton(
+                            //   label: 'Reboot',
+                            //   onTap: state.client != null &&
+                            //           !state.client!.isClosed
+                            //       ? () => _galaxyCubit.reboot()
+                            //       : null,
+                            // ),
+                            // LiquidArtButton(
+                            //   label: 'Shutdown',
+                            //   onTap: state.client != null &&
+                            //           !state.client!.isClosed
+                            //       ? () => _galaxyCubit.shutdown()
+                            //       : null,
+                            // ),
                             LiquidArtButton(
-                              label: 'Reboot',
+                              label: 'Test',
                               onTap: state.client != null &&
                                       !state.client!.isClosed
-                                  ? () => _galaxyCubit.reboot()
+                                  ? () => _galaxyCubit.sayHi()
                                   : null,
                             ),
                             LiquidArtButton(
-                              label: 'Shutdown',
+                              label: 'Open Canvas',
                               onTap: state.client != null &&
-                                      !state.client!.isClosed
-                                  ? () => _galaxyCubit.shutdown()
-                                  : null,
-                            ),
-                            LiquidArtButton(
-                              label: 'Relaunch',
-                              onTap: state.client != null &&
-                                      !state.client!.isClosed
-                                  ? () => _galaxyCubit.relaunchEarth()
+                                  !state.client!.isClosed
+                                  ? () => _galaxyCubit.openCanvas()
                                   : null,
                             ),
                           ],

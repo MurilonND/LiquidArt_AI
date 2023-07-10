@@ -8,6 +8,7 @@ class GalaxyState extends Equatable {
   final SSHClient? client;
   final bool showErrors;
   final bool loading;
+  final String ipv4;
 
   const GalaxyState({
     this.hostname = 'lg',
@@ -17,13 +18,14 @@ class GalaxyState extends Equatable {
     this.client,
     this.showErrors = false,
     this.loading = false,
+    this.ipv4 = '',
   });
 
   bool get formIsValid => ipAddress.isNotEmpty && password.isNotEmpty;
 
   @override
   List<Object?> get props =>
-      [hostname, port, ipAddress, password, client, showErrors, loading];
+      [hostname, port, ipAddress, password, client, showErrors, loading, ipv4];
 
   GalaxyState copyWith({
     String? hostname,
@@ -33,6 +35,7 @@ class GalaxyState extends Equatable {
     SSHClient? client,
     bool? showErrors,
     bool? loading,
+    String? ipv4,
   }) {
     return GalaxyState(
       hostname: hostname ?? this.hostname,
@@ -42,6 +45,7 @@ class GalaxyState extends Equatable {
       client: client ?? this.client,
       showErrors: showErrors ?? this.showErrors,
       loading: loading ?? this.loading,
+      ipv4: ipv4 ?? this.ipv4,
     );
   }
 }

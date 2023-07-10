@@ -10,6 +10,27 @@ part 'galaxy_state.dart';
 class GalaxyCubit extends Cubit<GalaxyState> {
   GalaxyCubit() : super(const GalaxyState());
 
+  void ipv4Changed(String value) {
+    final newState = state.copyWith(
+      ipv4: value,
+    );
+    emit(newState);
+  }
+
+  void hostNameChanged(String value) {
+    final newState = state.copyWith(
+      hostname: value,
+    );
+    emit(newState);
+  }
+
+  void portChanged(int value) {
+    final newState = state.copyWith(
+      port: value,
+    );
+    emit(newState);
+  }
+
   void ipAddressChanged(String value) {
     final newState = state.copyWith(
       ipAddress: value,
@@ -68,15 +89,15 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     }
   }
 
-  Future<void> shutdown() async {
-    if (state.client == null || state.client!.isClosed) return;
-
-    final shutdownCommand =
-        'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/shutdown.sh) ${state.password}';
-    final session = await state.client!.execute(shutdownCommand);
-    await session.stdin.close();
-    await session.done;
-  }
+  // Future<void> shutdown() async {
+  //   if (state.client == null || state.client!.isClosed) return;
+  //
+  //   final shutdownCommand =
+  //       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/shutdown.sh) ${state.password}';
+  //   final session = await state.client!.execute(shutdownCommand);
+  //   await session.stdin.close();
+  //   await session.done;
+  // }
 
   Future<void> sayHi() async {
     final sayHiCommand = 'echo hi';
@@ -87,23 +108,22 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     await session.done;
   }
 
-  Future<void> reboot() async {
-    if (state.client == null || state.client!.isClosed) return;
+  Future<void> openCanvas() async {
+    final openCanvasCommand = 'xdg-open http://${state.ipv4}:3000/';
 
-    final shutdownCommand =
-        'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/reboot.sh) ${state.password}';
-    final session = await state.client!.execute(shutdownCommand);
+    final session =
+    await state.client!.execute('export DISPLAY=:0 && $openCanvasCommand');
     await session.stdin.close();
     await session.done;
   }
 
-  Future<void> relaunchEarth() async {
-    if (state.client == null || state.client!.isClosed) return;
-
-    final shutdownCommand =
-        'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/relaunch.sh) ${state.password}';
-    final session = await state.client!.execute(shutdownCommand);
-    await session.stdin.close();
-    await session.done;
-  }
+  // Future<void> reboot() async {
+  //   if (state.client == null || state.client!.isClosed) return;
+  //
+  //   final shutdownCommand =
+  //       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/reboot.sh) ${state.password}';
+  //   final session = await state.client!.execute(shutdownCommand);
+  //   await session.stdin.close();
+  //   await session.done;
+  // }
 }

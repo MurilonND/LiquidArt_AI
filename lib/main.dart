@@ -83,6 +83,8 @@ void startImageServer() async {
   final address = wifiIPv4 ?? ''; // Bind to any IPv4 address on the machine
   const port = 3000; // Port number to listen on
 
+
+
   shelf_io
       .serve((shelf.Request request) => imageServer.handleRequest(request),
           address, port)
