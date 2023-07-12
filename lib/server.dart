@@ -17,7 +17,7 @@ class ImageServer {
 
   Future<Uint8List> _getImageBytes() async {
     try {
-      final ByteData byteData = await rootBundle.load('assets/logo/splash.png');
+      final ByteData byteData = await rootBundle.load('assets/logo/cat.png');
       return byteData.buffer.asUint8List();
     } catch (e) {
       print('Error reading image file: $e');

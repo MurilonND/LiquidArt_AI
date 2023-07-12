@@ -101,15 +101,6 @@ class GalaxyCubit extends Cubit<GalaxyState> {
   //   await session.done;
   // }
 
-  Future<void> sayHi() async {
-    final sayHiCommand = 'echo hi';
-
-    final session =
-        await state.client!.execute('export DISPLAY=:0 && $sayHiCommand');
-    await session.stdin.close();
-    await session.done;
-  }
-
   Future<void> openCanvas() async {
     final networkInfo = NetworkInfo();
     String? wifiIPv4 = '';
@@ -121,7 +112,7 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     }
 
     for(int lg = 1; lg <= state.lgScreens; lg++){
-      final openCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/install.sh) ' + state.password + ' ' + wifiIPv4!;
+      final openCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/open.sh) ' + state.password + ' ' + wifiIPv4!;
       final session =
       await state.client!.execute(openCanvasCommand);
       await session.stdin.close();
