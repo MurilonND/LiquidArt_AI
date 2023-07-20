@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^2.1.2
   shelf: ^1.4.1
   network_info_plus: ^3.0.1
+  permission_handler: ^10.4.3
+  share_plus: ^7.0.2
 
 dev_dependencies:
   flutter_test:
