@@ -97,6 +97,8 @@ class _GalleryPageState extends State<GalleryPage> {
                           label: 'Show on Liquid Galaxy', onTap: () {},),
                         LiquidArtButton(
                           label: 'Share the Image', onTap: () {},),
+                        LiquidArtButton(
+                          label: 'Download the Image', onTap: () {},),
                       ],
                     ),
                   ],
