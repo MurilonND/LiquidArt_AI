@@ -307,9 +307,14 @@ class _DrawerPageState extends State<DrawerPage> {
                       ],
                       const SizedBox(height: 20),
                       LiquidArtButton(
-                        label: 'Send Image to Gallery',
-                        onTap: false ? () {} : null,
+                        label: 'Save Image',
+                        onTap: image != "" ? () {} : null,
                       ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      LiquidArtButton(
+                        label: 'Share the Image', onTap: image != "" ? () {} : null,),
                       const SizedBox(
                         height: 15,
                       ),
