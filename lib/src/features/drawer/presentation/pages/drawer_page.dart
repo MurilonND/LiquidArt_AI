@@ -46,6 +46,8 @@ class _DrawerPageState extends State<DrawerPage> {
 
   TextEditingController? _imagePromptController;
 
+  String drawer = "Drawer";
+
   @override
   void initState() {
     _imagePromptController = TextEditingController(text: '');
@@ -57,8 +59,8 @@ class _DrawerPageState extends State<DrawerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Drawer",
+        title: Text(
+          drawer,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -305,9 +307,14 @@ class _DrawerPageState extends State<DrawerPage> {
                       ],
                       const SizedBox(height: 20),
                       LiquidArtButton(
-                        label: 'Send Image to Gallery',
-                        onTap: false ? () {} : null,
+                        label: 'Save Image',
+                        onTap: image != "" ? () {} : null,
                       ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      LiquidArtButton(
+                        label: 'Share the Image', onTap: image != "" ? () {} : null,),
                       const SizedBox(
                         height: 15,
                       ),
