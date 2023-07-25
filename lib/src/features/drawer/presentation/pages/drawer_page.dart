@@ -67,33 +67,21 @@ class _DrawerPageState extends State<DrawerPage> {
   }
   
   downloadImg() async {
-    var status = await Permission.storage.status;
-    print(status);
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    var res = false;
-
-    if (status.isGranted) {
-      res = true;
-    } else if (status.isDenied) {
-      res = false;
-    } else if (status.isPermanentlyDenied) {
-      await openAppSettings();
-    }
-
-    if(res){
+    var res = await Permission.storage.request();
+    if(res.isGranted){
       const folder = "LiquidArtAI";
       final path = await getApplicationDocumentsDirectory();
-      final imgPath = '${path.path}/$folder';
+      final imgPath = Directory('${path.path}/$folder');
 
-      final fileName = "${_imagePromptController?.text}.png";
+      final fileName = "${_imagePromptController?.text}.jpg";
+
+      print(imgPath);
 
       if(await path.exists()){
-        await screenshotController.captureAndSave(imgPath,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
+        await screenshotController.captureAndSave(imgPath.path,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
       }else{
-        await path.create();
-        await screenshotController.captureAndSave(imgPath,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
+        await imgPath.create();
+        await screenshotController.captureAndSave(imgPath.path,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
       }
     }
   }
@@ -216,36 +204,6 @@ class _DrawerPageState extends State<DrawerPage> {
                           hintText: 'Negative Prompt',
                           textController: textController,
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     const Padding(
-                        //       padding: EdgeInsets.only(left: 0),
-                        //       child: Text(
-                        //         'API Key',
-                        //         style: TextStyle(
-                        //             fontSize: 18, color: Colors.black),
-                        //       ),
-                        //     ),
-                        //     TextField(
-                        //       controller: _apiKeyController,
-                        //       decoration: InputDecoration(
-                        //           border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(20.0),
-                        //             borderSide:
-                        //                 const BorderSide(color: Colors.black),
-                        //           ),
-                        //           filled: true,
-                        //           hintStyle: const TextStyle(
-                        //               fontSize: 16, color: Colors.grey),
-                        //           hintText: 'API Key',
-                        //           fillColor: Colors.white70),
-                        //     )
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 20,
                         ),
