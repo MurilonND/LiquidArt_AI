@@ -13,7 +13,7 @@ class ImageServer {
     } else if (request.url.path == '/3') {
       return _getImageResponse('assets/logo/cat.png');
     } else {
-      return shelf.Response.notFound('Route not found');
+      return shelf.Response.notFound('Route not found ${request.url.path}');
     }
   }
 
