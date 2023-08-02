@@ -111,7 +111,12 @@ class GalaxyCubit extends Cubit<GalaxyState> {
       wifiIPv4 = '';
     }
 
-    final closeCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/close.sh)';
+    print('============================================================');
+    print(state.lgScreens);
+    print('============================================================');
+
+    final closeCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/close.sh) ' +
+        state.password;
     final close = await state.client!.execute(closeCanvasCommand);
     await close.stdin.close();
     await close.done;
