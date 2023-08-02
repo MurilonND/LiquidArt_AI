@@ -60,7 +60,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     hintText: 'Ex: 5',
                     textController: lgScreensController,
                     onChanged: (value) =>
-                        _galaxyCubit.lgScreensChanged(value),
+                        _galaxyCubit.lgScreensChanged(int.parse(value)),
                   ),
                   const SizedBox(
                     height: 25,
