@@ -8,7 +8,7 @@ for lg in $LG_FRAMES ; do
 		export DISPLAY=:0
 		pkill chromium-browse
 	else
-		ssh -Xnf lg@$lg " pkill chromium-browse "
+		sshpass -p $1 ssh -Xnf lg@$lg " pkill chromium-browse "
 	fi
     sleep 0.5
 done
