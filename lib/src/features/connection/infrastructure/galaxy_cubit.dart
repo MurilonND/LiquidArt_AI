@@ -111,14 +111,14 @@ class GalaxyCubit extends Cubit<GalaxyState> {
       wifiIPv4 = '';
     }
 
-    for(int lg = 1; lg <= state.lgScreens; lg++){
-      final openCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/open.sh) ' + state.password + ' ' + wifiIPv4!;
-      final session =
-      await state.client!.execute(openCanvasCommand);
-      await session.stdin.close();
-      await session.done;
-    }
-
+    final openCanvasCommand =
+        'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/open.sh) ' +
+            state.password +
+            ' ' +
+            wifiIPv4!;
+    final session = await state.client!.execute(openCanvasCommand);
+    await session.stdin.close();
+    await session.done;
   }
 
 // Future<void> reboot() async {

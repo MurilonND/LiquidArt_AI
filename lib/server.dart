@@ -3,8 +3,16 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:shelf/shelf.dart' as shelf;
 
+import 'src/features/connection/infrastructure/galaxy_cubit.dart';
+
 class ImageServer {
+  final GalaxyCubit _galaxyCubit = GalaxyCubit();
+
   Future<shelf.Response> handleRequest(shelf.Request request) async {
+    print('========================================');
+    print(_galaxyCubit.state.lgScreens);
+    print('========================================');
+
     final imageBytes = await _getImageBytes('assets/logo/cat.png');
     if (imageBytes != null) {
       final base64Image = base64Encode(imageBytes);
@@ -14,10 +22,15 @@ class ImageServer {
           <head>
             <style>
               body { margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
-              .image-container { width: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: 300% 100%; }
+              .image-container { width: 100vw; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: 400% 100%; }
               .image-container.image3 { background-position: 0 0; }
               .image-container.image1 { background-position: 33.33% 0; }
               .image-container.image2 { background-position: 66.66% 0; }
+              .image-container.5 { background-position: 0 0; }
+              .image-container.3 { background-position: 20% 0; }
+              .image-container.1 { background-position: 40% 0; }
+              .image-container.2 { background-position: 60% 0; }
+              .image-container.4 { background-position: 80% 0; }
             </style>
           </head>
           <body>
