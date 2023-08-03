@@ -4,6 +4,7 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liquid_art_ai/server.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 part 'galaxy_state.dart';
@@ -111,9 +112,7 @@ class GalaxyCubit extends Cubit<GalaxyState> {
       wifiIPv4 = '';
     }
 
-    print('============================================================');
-    print(state.lgScreens);
-    print('============================================================');
+    rerunImageServer('assets/canvas3.jpg', state.lgScreens);
 
     final closeCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/close.sh) ' +
         state.password;
