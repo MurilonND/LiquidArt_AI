@@ -41,6 +41,11 @@ class GalaxyCubit extends Cubit<GalaxyState> {
   }
 
   Future<void> connect() async {
+    final newState = state.copyWith(
+      errorMessage: null,
+    );
+    emit(newState);
+
     if (!state.formIsValid) {
       return emit(state.copyWith(
         showErrors: true,

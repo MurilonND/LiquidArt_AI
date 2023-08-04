@@ -55,22 +55,10 @@ class _ConnectionPageState extends State<ConnectionPage> {
               child: ListView(
                 children: [
                   LiquidArtTextField(
-                    inputType: TextInputType.number,
-                    label: 'Number of Screens',
-                    hintText: 'Ex: 5',
-                    textController: lgScreensController,
-                    onChanged: (value) =>
-                        _galaxyCubit.lgScreensChanged(int.parse(value)),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  LiquidArtTextField(
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg',
                     textController: hostnameController,
-                    onChanged: (value) =>
-                        _galaxyCubit.passwordChanged(value),
+                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -79,8 +67,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy IP Address',
                     hintText: 'Ex: 172.16.51.173',
                     textController: ipAddressController,
-                    onChanged: (value) =>
-                        _galaxyCubit.ipAddressChanged(value),
+                    onChanged: (value) => _galaxyCubit.ipAddressChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -89,13 +76,23 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy Host Password',
                     hintText: 'Ex: lq',
                     textController: passwordController,
+                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LiquidArtTextField(
+                    inputType: TextInputType.number,
+                    label: 'Number of Screens',
+                    hintText: 'Ex: 5',
+                    textController: lgScreensController,
                     onChanged: (value) =>
-                      _galaxyCubit.passwordChanged(value),
-                    ),
+                        _galaxyCubit.lgScreensChanged(int.parse(value)),
+                  ),
                   const SizedBox(
                     height: 40,
                   ),
-                  if(state.loading)...[
+                  if (state.loading) ...[
                     const Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -103,7 +100,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       height: 20,
                     ),
                   ],
-                  if(state.errorMessage != null)...[
+                  if (state.errorMessage != null) ...[
                     Center(
                       child: Text(state.errorMessage!),
                     ),
@@ -163,7 +160,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                             LiquidArtButton(
                               label: 'Open Canvas',
                               onTap: state.client != null &&
-                                  !state.client!.isClosed
+                                      !state.client!.isClosed
                                   ? () => _galaxyCubit.openCanvas()
                                   : null,
                             ),
