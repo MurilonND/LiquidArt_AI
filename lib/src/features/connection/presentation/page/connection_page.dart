@@ -186,6 +186,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             children: [
               _buildSpeedDial(
                   context,
+                  'Home Page',
                   const Icon(
                     Icons.home,
                     color: Colors.white,
@@ -197,6 +198,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'Drawer Page',
                   const Icon(
                     Icons.brush,
                     color: Colors.white,
@@ -208,6 +210,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'Gallery Page',
                   const Icon(
                     Icons.image,
                     color: Colors.white,
@@ -219,6 +222,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'API Key Page',
                   const Icon(
                     Icons.key,
                     color: Colors.white,
@@ -237,8 +241,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
   }
 }
 
-_buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
+    label: label,
     child: icon,
     backgroundColor: backgroundColor,
     onTap: () {

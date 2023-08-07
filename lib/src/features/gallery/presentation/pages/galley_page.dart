@@ -49,6 +49,7 @@ class _GalleryPageState extends State<GalleryPage> {
             Dialog(
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
+              alignment: Alignment.center,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -56,7 +57,6 @@ class _GalleryPageState extends State<GalleryPage> {
                 shrinkWrap: true,
                 children: [
                   Container(
-                    // width: MediaQuery.of(context).size.width*3/4,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -161,6 +161,7 @@ class _GalleryPageState extends State<GalleryPage> {
         children: [
           _buildSpeedDial(
               context,
+              'Home Page',
               const Icon(
                 Icons.home,
                 color: Colors.white,
@@ -172,6 +173,7 @@ class _GalleryPageState extends State<GalleryPage> {
           }),
           _buildSpeedDial(
               context,
+              'Connection Page',
               const Icon(
                 Icons.cast_connected,
                 color: Colors.white,
@@ -183,6 +185,7 @@ class _GalleryPageState extends State<GalleryPage> {
           }),
           _buildSpeedDial(
               context,
+              'Drawer Page',
               const Icon(
                 Icons.brush,
                 color: Colors.white,
@@ -194,6 +197,7 @@ class _GalleryPageState extends State<GalleryPage> {
           }),
           _buildSpeedDial(
               context,
+              'API Keys',
               const Icon(
                 Icons.key,
                 color: Colors.white,
@@ -220,8 +224,9 @@ class _GalleryPageState extends State<GalleryPage> {
     }
   }
 
-_buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
+    label: label,
     child: icon,
     backgroundColor: backgroundColor,
     onTap: () {
