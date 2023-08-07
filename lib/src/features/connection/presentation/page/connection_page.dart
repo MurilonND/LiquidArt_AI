@@ -17,13 +17,13 @@ class ConnectionPage extends StatefulWidget {
 }
 
 class _ConnectionPageState extends State<ConnectionPage> {
-  final GalaxyCubit _galaxyCubit = GalaxyCubit();
+  late GalaxyCubit _galaxyCubit;
 
-  // @override
-  // void initState() {
-  //   _galaxyCubit = context.read();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    _galaxyCubit = context.read<GalaxyCubit>();
+    super.initState();
+  }
 
   //Text Strings
   final String connectionPageTitle = "Connection";
@@ -158,10 +158,17 @@ class _ConnectionPageState extends State<ConnectionPage> {
                             //       : null,
                             // ),
                             LiquidArtButton(
-                              label: 'Open Canvas',
+                              label: 'Open Demo Canvas',
                               onTap: state.client != null &&
                                       !state.client!.isClosed
-                                  ? () => _galaxyCubit.openCanvas()
+                                  ? () => _galaxyCubit.openCanvas('assets/canvas3.jpg', null)
+                                  : null,
+                            ),
+                            LiquidArtButton(
+                              label: 'Close Canvas',
+                              onTap: state.client != null &&
+                                  !state.client!.isClosed
+                                  ? () => _galaxyCubit.shutdown()
                                   : null,
                             ),
                           ],

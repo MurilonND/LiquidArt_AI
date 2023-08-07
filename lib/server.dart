@@ -10,7 +10,7 @@ import 'src/features/connection/infrastructure/galaxy_cubit.dart';
 
 HttpServer? server; // Declare a global variable to hold the server instance
 
-void startImageServer(String imagePath, int lgScreens) async {
+void startImageServer(String? imagePath, int lgScreens, Uint8List? imageFileBytes) async {
   final imageServer = ImageServer();
   final networkInfo = NetworkInfo();
   String? wifiIPv4 = '';
@@ -24,26 +24,31 @@ void startImageServer(String imagePath, int lgScreens) async {
   final address = wifiIPv4 ?? ''; // Bind to any IPv4 address on the machine
   const port = 3000; // Port number to listen on
 
-  server = await shelf_io.serve((shelf.Request request) => imageServer.handleRequest(request, imagePath, lgScreens),
+  server = await shelf_io.serve((shelf.Request request) => imageServer.handleRequest(request, imagePath, lgScreens, imageFileBytes),
       address, port);
 
   print('Image server running on ${server?.address.host}:${server?.port}');
 }
 
-void rerunImageServer(String imagePath, int lgScreens) async {
+void rerunImageServer(String? imagePath, int lgScreens, Uint8List? imageFileBytes) async {
   if (server != null) {
     await server!.close();
     server = null; // Reset the server instance
-    startImageServer(imagePath, lgScreens);
+    startImageServer(imagePath, lgScreens, imageFileBytes);
   } else {
-    startImageServer(imagePath, lgScreens);
+    startImageServer(imagePath, lgScreens, imageFileBytes);
   }
 }
 
 class ImageServer {
-  Future<shelf.Response> handleRequest(shelf.Request request, String imagePath, int lgScreens) async {
+  Future<shelf.Response> handleRequest(shelf.Request request, String? imagePath, int lgScreens, Uint8List? imageFileBytes) async {
     final logoBytes = await _getImageBytes('assets/logo/splash.png');
-    final imageBytes = await _getImageBytes(imagePath);
+    Uint8List? imageBytes;
+    if(imagePath != null){
+      imageBytes = await _getImageBytes(imagePath);
+    }else{
+      imageBytes = imageFileBytes!;
+    }
     if (imageBytes != null && logoBytes != null) {
       final base64Logo = base64Encode(logoBytes);
       final base64Image = base64Encode(imageBytes);
@@ -53,8 +58,7 @@ class ImageServer {
           <head>
             <style>
               body { margin: 0; padding: 0; height: 100vh; display: flex; justify-content: start; align-items: start; }
-              .logo-container3 { width: 50%; height: 50%; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
-              .logo-container5 { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
+              .logo-container { width: 50vh; height: 50vh; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
               .image-container { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: 300% 100%; }
               .image-container.image3 { background-position: 0 0; }
               .image-container.image1 { background-position: 50% 0; }
@@ -82,15 +86,8 @@ class ImageServer {
 
   String _getLogoClass(String path){
     if(path == '3' || path == '5'){
-      switch (path) {
-        case '3':
-          return 'logo-container3';
-        case '5':
-          return 'logo-container5';
-        default:
-          return '';
+          return 'logo-container';
       }
-    }
     return '';
   }
 
