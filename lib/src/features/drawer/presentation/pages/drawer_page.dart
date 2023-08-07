@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
@@ -77,31 +78,36 @@ class _DrawerPageState extends State<DrawerPage> {
     setState(() {
       isSaving = true;
     });
-    // var res = await Permission.storage.request();
-    // if (res.isGranted) {
-    const folder = "LiquidArtAI";
-    final path = await getApplicationDocumentsDirectory();
-    final imgPath = Directory('${path.path}/$folder');
+    final plugin = DeviceInfoPlugin();
+    final android = await plugin.androidInfo;
 
-    final fileName = "${_imagePromptController?.text}.jpg";
+    var res = android.version.sdkInt < 33
+        ? await Permission.storage.request()
+        : PermissionStatus.granted;
+    if (res.isGranted) {
+      const folder = "LiquidArtAI";
+      final path = await getApplicationDocumentsDirectory();
+      final imgPath = Directory('${path.path}/$folder');
 
-    if (await path.exists()) {
-      await screenshotController.captureAndSave(imgPath.path,
-          delay: const Duration(milliseconds: 100),
-          fileName: fileName,
-          pixelRatio: 1.0);
-    } else {
-      await imgPath.create();
-      await screenshotController.captureAndSave(imgPath.path,
-          delay: const Duration(milliseconds: 100),
-          fileName: fileName,
-          pixelRatio: 1.0);
+      final fileName = "${_imagePromptController?.text}.jpg";
+
+      if (await path.exists()) {
+        await screenshotController.captureAndSave(imgPath.path,
+            delay: const Duration(milliseconds: 100),
+            fileName: fileName,
+            pixelRatio: 1.0);
+      } else {
+        await imgPath.create();
+        await screenshotController.captureAndSave(imgPath.path,
+            delay: const Duration(milliseconds: 100),
+            fileName: fileName,
+            pixelRatio: 1.0);
+      }
+
+      setState(() {
+        isSaving = false;
+      });
     }
-
-    setState(() {
-      isSaving = false;
-    });
-    // }
   }
 
   TextEditingController? _imagePromptController;
@@ -213,40 +219,47 @@ class _DrawerPageState extends State<DrawerPage> {
                                 },
                               ),
                             ),
-                            const SizedBox(width: 10,),
-                              GestureDetector(
-                                  onTapDown: (details) async{
-                                    if(!isListening){
-                                      var available = await speechToText.initialize();
-                                      if(available) {
-                                        setState(() {
-                                          isListening = true;
-                                          speechToText.listen(
-                                              onResult: (result) {
-                                                setState(() {
-                                                  _imagePromptController = TextEditingController(text: result.recognizedWords);
-                                                });
-                                              }
-                                          );
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                                onTapDown: (details) async {
+                                  if (!isListening) {
+                                    var available =
+                                        await speechToText.initialize();
+                                    if (available) {
+                                      setState(() {
+                                        isListening = true;
+                                        speechToText.listen(onResult: (result) {
+                                          setState(() {
+                                            _imagePromptController =
+                                                TextEditingController(
+                                                    text:
+                                                        result.recognizedWords);
+                                          });
                                         });
-                                      }
+                                      });
                                     }
-                                  },
-                                  onTapUp: (details){
-                                    setState(() {
-                                      isListening = false;
-                                    });
-                                    speechToText.stop();
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor:isListening ? Colors.white : const Color(0xFF4C7BBF),
-                                    child: Icon(
-                                      Icons.mic,
-                                      color: isListening ? const Color(0xFF4C7BBF) : Colors.white,
-                                    ),
-                                  )
-                                ),
+                                  }
+                                },
+                                onTapUp: (details) {
+                                  setState(() {
+                                    isListening = false;
+                                  });
+                                  speechToText.stop();
+                                },
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: isListening
+                                      ? Colors.white
+                                      : const Color(0xFF4C7BBF),
+                                  child: Icon(
+                                    Icons.mic,
+                                    color: isListening
+                                        ? const Color(0xFF4C7BBF)
+                                        : Colors.white,
+                                  ),
+                                )),
                           ],
                         ),
                         const SizedBox(
