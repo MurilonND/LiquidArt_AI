@@ -42,7 +42,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(50),
+          padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
               LiquidArtTextField(

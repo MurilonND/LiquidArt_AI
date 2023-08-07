@@ -20,9 +20,10 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(50),
+            padding: const EdgeInsets.all(20),
             child: Wrap(
               alignment: WrapAlignment.spaceAround,
+              verticalDirection: VerticalDirection.up,
               children: <Widget>[
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 700),
@@ -31,9 +32,11 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
                           'Welcome To LiquidArt AI!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
@@ -49,7 +52,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Image.asset('assets/logo/Logo.png'),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  child: Image.asset('assets/logo/Logo.png'),
+                ),
               ],
             ),
           ),
@@ -127,7 +133,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor,
+    Function function) {
   return SpeedDialChild(
     label: label,
     child: icon,

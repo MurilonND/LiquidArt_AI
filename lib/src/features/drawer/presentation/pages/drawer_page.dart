@@ -127,7 +127,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 600),
                   child: Container(
-                    padding: const EdgeInsets.all(50),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
