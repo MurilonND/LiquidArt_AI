@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class DrawerPage extends StatefulWidget {
   const DrawerPage({super.key});
@@ -54,6 +55,9 @@ class _DrawerPageState extends State<DrawerPage> {
 
   ScreenshotController screenshotController = ScreenshotController();
 
+  bool isListening = false;
+  SpeechToText speechToText = SpeechToText();
+
   shareImage() async {
     await screenshotController
         .capture(delay: const Duration(milliseconds: 100), pixelRatio: 1.0)
@@ -73,31 +77,31 @@ class _DrawerPageState extends State<DrawerPage> {
     setState(() {
       isSaving = true;
     });
-    var res = await Permission.storage.request();
-    if (res.isGranted) {
-      const folder = "LiquidArtAI";
-      final path = await getApplicationDocumentsDirectory();
-      final imgPath = Directory('${path.path}/$folder');
+    // var res = await Permission.storage.request();
+    // if (res.isGranted) {
+    const folder = "LiquidArtAI";
+    final path = await getApplicationDocumentsDirectory();
+    final imgPath = Directory('${path.path}/$folder');
 
-      final fileName = "${_imagePromptController?.text}.jpg";
+    final fileName = "${_imagePromptController?.text}.jpg";
 
-      if (await path.exists()) {
-        await screenshotController.captureAndSave(imgPath.path,
-            delay: const Duration(milliseconds: 100),
-            fileName: fileName,
-            pixelRatio: 1.0);
-      } else {
-        await imgPath.create();
-        await screenshotController.captureAndSave(imgPath.path,
-            delay: const Duration(milliseconds: 100),
-            fileName: fileName,
-            pixelRatio: 1.0);
-      }
-
-      setState(() {
-        isSaving = false;
-      });
+    if (await path.exists()) {
+      await screenshotController.captureAndSave(imgPath.path,
+          delay: const Duration(milliseconds: 100),
+          fileName: fileName,
+          pixelRatio: 1.0);
+    } else {
+      await imgPath.create();
+      await screenshotController.captureAndSave(imgPath.path,
+          delay: const Duration(milliseconds: 100),
+          fileName: fileName,
+          pixelRatio: 1.0);
     }
+
+    setState(() {
+      isSaving = false;
+    });
+    // }
   }
 
   TextEditingController? _imagePromptController;
@@ -155,12 +159,12 @@ class _DrawerPageState extends State<DrawerPage> {
                                   setState(() {
                                     modelValue = value;
                                   });
-                                  if(value == 'stable_diffusion'){
+                                  if (value == 'stable_diffusion') {
                                     sizes.add('LG 3 screens');
                                     sizeValues.add('500x1500');
                                     sizes.add('LG 5 screens');
                                     sizeValues.add('500x2500');
-                                  }else{
+                                  } else {
                                     sizeValue = '1024x1024';
                                     sizes.remove('LG 3 screens');
                                     sizeValues.remove('500x1500');
@@ -194,15 +198,56 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        LiquidArtTextField(
-                          enabled: modelValue != null,
-                          label: 'Image Prompt',
-                          hintText: 'Image Prompt',
-                          textController: _imagePromptController,
-                          onChanged: (value){
-                            setState(() {
-                            });
-                          },
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: LiquidArtTextField(
+                                enabled: modelValue != null,
+                                label: 'Image Prompt',
+                                hintText: 'Image Prompt',
+                                textController: _imagePromptController,
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10,),
+                              GestureDetector(
+                                  onTapDown: (details) async{
+                                    if(!isListening){
+                                      var available = await speechToText.initialize();
+                                      if(available) {
+                                        setState(() {
+                                          isListening = true;
+                                          speechToText.listen(
+                                              onResult: (result) {
+                                                setState(() {
+                                                  _imagePromptController = TextEditingController(text: result.recognizedWords);
+                                                });
+                                              }
+                                          );
+                                        });
+                                      }
+                                    }
+                                  },
+                                  onTapUp: (details){
+                                    setState(() {
+                                      isListening = false;
+                                    });
+                                    speechToText.stop();
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor:isListening ? Colors.white : const Color(0xFF4C7BBF),
+                                    child: Icon(
+                                      Icons.mic,
+                                      color: isListening ? const Color(0xFF4C7BBF) : Colors.white,
+                                    ),
+                                  )
+                                ),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
@@ -287,12 +332,14 @@ class _DrawerPageState extends State<DrawerPage> {
                                       placeHolder = false;
                                     });
                                     if (modelValue == "dall_e") {
-                                      image = await DallE.generateImage(context,
+                                      image = await DallE.generateImage(
+                                          context,
                                           _imagePromptController!.text,
                                           sizeValue!);
                                     } else {
                                       image =
-                                          await StableDiffusion.generateImage(context,
+                                          await StableDiffusion.generateImage(
+                                              context,
                                               _imagePromptController!.text,
                                               sizeValue!);
                                     }
