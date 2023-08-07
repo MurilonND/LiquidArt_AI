@@ -55,8 +55,10 @@ class _DrawerPageState extends State<DrawerPage> {
   ScreenshotController screenshotController = ScreenshotController();
 
   shareImage() async {
-    await screenshotController.capture(delay: const Duration(milliseconds: 100), pixelRatio: 1.0).then((Uint8List? img) async {
-      if(img != null){
+    await screenshotController
+        .capture(delay: const Duration(milliseconds: 100), pixelRatio: 1.0)
+        .then((Uint8List? img) async {
+      if (img != null) {
         final directory = (await getApplicationDocumentsDirectory()).path;
         final filename = "share.png";
         final imgPath = await File("${directory}/$filename").create();
@@ -66,24 +68,30 @@ class _DrawerPageState extends State<DrawerPage> {
       }
     });
   }
-  
+
   downloadImg() async {
     setState(() {
       isSaving = true;
     });
     var res = await Permission.storage.request();
-    if(res.isGranted){
+    if (res.isGranted) {
       const folder = "LiquidArtAI";
       final path = await getApplicationDocumentsDirectory();
       final imgPath = Directory('${path.path}/$folder');
 
       final fileName = "${_imagePromptController?.text}.jpg";
 
-      if(await path.exists()){
-        await screenshotController.captureAndSave(imgPath.path,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
-      }else{
+      if (await path.exists()) {
+        await screenshotController.captureAndSave(imgPath.path,
+            delay: const Duration(milliseconds: 100),
+            fileName: fileName,
+            pixelRatio: 1.0);
+      } else {
         await imgPath.create();
-        await screenshotController.captureAndSave(imgPath.path,delay: const Duration(milliseconds: 100), fileName: fileName, pixelRatio: 1.0);
+        await screenshotController.captureAndSave(imgPath.path,
+            delay: const Duration(milliseconds: 100),
+            fileName: fileName,
+            pixelRatio: 1.0);
       }
 
       setState(() {
@@ -119,15 +127,15 @@ class _DrawerPageState extends State<DrawerPage> {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 1),
             child: Wrap(
               alignment: WrapAlignment.spaceAround,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 600),
+                  constraints: const BoxConstraints(maxWidth: 550),
                   child: Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,6 +155,18 @@ class _DrawerPageState extends State<DrawerPage> {
                                   setState(() {
                                     modelValue = value;
                                   });
+                                  if(value == 'stable_diffusion'){
+                                    sizes.add('LG 3 screens');
+                                    sizeValues.add('500x1500');
+                                    sizes.add('LG 5 screens');
+                                    sizeValues.add('500x2500');
+                                  }else{
+                                    sizeValue = '1024x1024';
+                                    sizes.remove('LG 3 screens');
+                                    sizeValues.remove('500x1500');
+                                    sizes.remove('LG 5 screens');
+                                    sizeValues.remove('500x2500');
+                                  }
                                 },
                               ),
                             ),
@@ -155,7 +175,7 @@ class _DrawerPageState extends State<DrawerPage> {
                               child: SizedBox(),
                             ),
                             Flexible(
-                              flex: 2,
+                              flex: 3,
                               child: LiquidArtDropDown(
                                 label: "Size",
                                 dropValue: sizeValue,
@@ -174,38 +194,21 @@ class _DrawerPageState extends State<DrawerPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 0),
-                              child: Text(
-                                'Image Prompt',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              ),
-                            ),
-                            TextField(
-                              controller: _imagePromptController,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide:
-                                        const BorderSide(color: Colors.black),
-                                  ),
-                                  filled: true,
-                                  hintStyle: const TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                  hintText: 'Image Prompt',
-                                  fillColor: Colors.white70),
-                            )
-                          ],
+                        LiquidArtTextField(
+                          enabled: modelValue != null,
+                          label: 'Image Prompt',
+                          hintText: 'Image Prompt',
+                          textController: _imagePromptController,
+                          onChanged: (value){
+                            setState(() {
+                            });
+                          },
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         LiquidArtTextField(
-                          enabled: false,
+                          enabled: modelValue == 'stable_diffusion',
                           label: 'Negative Prompt',
                           hintText: 'Negative Prompt',
                           textController: textController,
@@ -219,7 +222,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             Flexible(
                               flex: 2,
                               child: LiquidArtTextField(
-                                enabled: false,
+                                enabled: modelValue == 'stable_diffusion',
                                 label: 'Batch Count',
                                 hintText: 'Batch Count',
                                 textController: textController,
@@ -232,7 +235,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             Flexible(
                               flex: 2,
                               child: LiquidArtTextField(
-                                enabled: false,
+                                enabled: modelValue == 'stable_diffusion',
                                 label: 'Batch Size',
                                 hintText: 'Batch Size',
                                 textController: textController,
@@ -249,7 +252,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             Flexible(
                               flex: 4,
                               child: LiquidArtTextField(
-                                enabled: false,
+                                enabled: modelValue == 'stable_diffusion',
                                 label: 'Seed',
                                 hintText: 'Seed',
                                 textController: textController,
@@ -262,7 +265,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             Flexible(
                               flex: 2,
                               child: LiquidArtTextField(
-                                enabled: false,
+                                enabled: modelValue == 'stable_diffusion',
                                 label: 'CFG Scale',
                                 hintText: 'CFG Scale',
                                 textController: textController,
@@ -284,12 +287,12 @@ class _DrawerPageState extends State<DrawerPage> {
                                       placeHolder = false;
                                     });
                                     if (modelValue == "dall_e") {
-                                      image = await DallE.generateImage(
+                                      image = await DallE.generateImage(context,
                                           _imagePromptController!.text,
                                           sizeValue!);
                                     } else {
                                       image =
-                                          await StableDiffusion.generateImage(
+                                          await StableDiffusion.generateImage(context,
                                               _imagePromptController!.text,
                                               sizeValue!);
                                     }
@@ -305,7 +308,7 @@ class _DrawerPageState extends State<DrawerPage> {
                   ),
                 ),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
+                  constraints: const BoxConstraints(maxWidth: 550),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -327,29 +330,37 @@ class _DrawerPageState extends State<DrawerPage> {
                           const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          const SizedBox(height: 30,)
+                          const SizedBox(
+                            height: 30,
+                          )
                         ]
                       ],
                       const SizedBox(height: 20),
-                      if(isSaving)...[
+                      if (isSaving) ...[
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
-                      ]else...[
+                      ] else ...[
                         LiquidArtButton(
                           label: 'Save Image',
-                          onTap: image != "" ? () async {
-                            await downloadImg();
-                          } : null,
+                          onTap: image != ""
+                              ? () async {
+                                  await downloadImg();
+                                }
+                              : null,
                         ),
                       ],
                       const SizedBox(
                         height: 15,
                       ),
                       LiquidArtButton(
-                        label: 'Share the Image', onTap: image != "" ? () async {
-                        await shareImage();
-                      } : null,),
+                        label: 'Share the Image',
+                        onTap: image != ""
+                            ? () async {
+                                await shareImage();
+                              }
+                            : null,
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -420,7 +431,8 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 }
 
-_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor,
+    Function function) {
   return SpeedDialChild(
     label: label,
     child: icon,

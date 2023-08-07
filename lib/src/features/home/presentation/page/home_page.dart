@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
               verticalDirection: VerticalDirection.up,
               children: <Widget>[
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 700),
+                  constraints: const BoxConstraints(maxWidth: 550),
                   child: Container(
                     // width: double.infinity,
                     padding: const EdgeInsets.all(50),
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 700),
+                  constraints: const BoxConstraints(maxWidth: 550),
                   child: Image.asset('assets/logo/Logo.png'),
                 ),
               ],
