@@ -6,8 +6,6 @@ import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_pag
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
-import '../../../connection/infrastructure/galaxy_cubit.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,45 +14,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GalaxyCubit _galaxyCubit = GalaxyCubit();
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(50),
+            padding: const EdgeInsets.all(20),
             child: Wrap(
               alignment: WrapAlignment.spaceAround,
+              verticalDirection: VerticalDirection.up,
               children: <Widget>[
                 ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 700),
+                  constraints: const BoxConstraints(maxWidth: 550),
                   child: Container(
                     // width: double.infinity,
                     padding: const EdgeInsets.all(50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
                           'Welcome To LiquidArt AI!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        FutureBuilder(
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              return Text(
-                                  'Server Url: ${snapshot.data.toString()}:3000',
-                                  style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),);
-                            },
-                            future: getConnectionDoor()),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
-                        const Text(
+                        Text(
                           'First to start click in the round button in the bottom and go to the configuration page, there fill the field with the right data to connect with the Liquid Galaxy then you can go to the draw page and start creating your own images!',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 25),
@@ -63,7 +52,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Image.asset('assets/logo/Logo.png'),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 550),
+                  child: Image.asset('assets/logo/Logo.png'),
+                ),
               ],
             ),
           ),
@@ -75,6 +67,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildSpeedDial(
               context,
+              'Connection Page',
               const Icon(
                 Icons.cast_connected,
                 color: Colors.white,
@@ -86,6 +79,7 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSpeedDial(
               context,
+              'Drawer Page',
               const Icon(
                 Icons.brush,
                 color: Colors.white,
@@ -97,6 +91,7 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSpeedDial(
               context,
+              'Gallery Page',
               const Icon(
                 Icons.image,
                 color: Colors.white,
@@ -108,6 +103,7 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSpeedDial(
               context,
+              'API Keys',
               const Icon(
                 Icons.key,
                 color: Colors.white,
@@ -137,8 +133,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-_buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor,
+    Function function) {
   return SpeedDialChild(
+    label: label,
     child: icon,
     backgroundColor: backgroundColor,
     onTap: () {

@@ -17,13 +17,13 @@ class ConnectionPage extends StatefulWidget {
 }
 
 class _ConnectionPageState extends State<ConnectionPage> {
-  final GalaxyCubit _galaxyCubit = GalaxyCubit();
+  late GalaxyCubit _galaxyCubit;
 
-  // @override
-  // void initState() {
-  //   _galaxyCubit = context.read();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    _galaxyCubit = context.read<GalaxyCubit>();
+    super.initState();
+  }
 
   //Text Strings
   final String connectionPageTitle = "Connection";
@@ -51,9 +51,36 @@ class _ConnectionPageState extends State<ConnectionPage> {
           ),
           body: Center(
             child: Container(
-              padding: const EdgeInsets.all(50),
+              padding: const EdgeInsets.all(20),
               child: ListView(
                 children: [
+                  LiquidArtTextField(
+                    label: 'Liquid Galaxy Host Name',
+                    hintText: 'Ex: lg',
+                    textController: hostnameController,
+                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LiquidArtTextField(
+                    label: 'Liquid Galaxy IP Address',
+                    hintText: 'Ex: 172.16.51.173',
+                    textController: ipAddressController,
+                    onChanged: (value) => _galaxyCubit.ipAddressChanged(value),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LiquidArtTextField(
+                    label: 'Liquid Galaxy Host Password',
+                    hintText: 'Ex: lq',
+                    textController: passwordController,
+                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   LiquidArtTextField(
                     inputType: TextInputType.number,
                     label: 'Number of Screens',
@@ -63,39 +90,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
                         _galaxyCubit.lgScreensChanged(int.parse(value)),
                   ),
                   const SizedBox(
-                    height: 25,
-                  ),
-                  LiquidArtTextField(
-                    label: 'Liquid Galaxy Host Name',
-                    hintText: 'Ex: lg',
-                    textController: hostnameController,
-                    onChanged: (value) =>
-                        _galaxyCubit.passwordChanged(value),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  LiquidArtTextField(
-                    label: 'Liquid Galaxy IP Address',
-                    hintText: 'Ex: 172.16.51.173',
-                    textController: ipAddressController,
-                    onChanged: (value) =>
-                        _galaxyCubit.ipAddressChanged(value),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  LiquidArtTextField(
-                    label: 'Liquid Galaxy Host Password',
-                    hintText: 'Ex: lq',
-                    textController: passwordController,
-                    onChanged: (value) =>
-                      _galaxyCubit.passwordChanged(value),
-                    ),
-                  const SizedBox(
                     height: 40,
                   ),
-                  if(state.loading)...[
+                  if (state.loading) ...[
                     const Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -103,7 +100,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       height: 20,
                     ),
                   ],
-                  if(state.errorMessage != null)...[
+                  if (state.errorMessage != null) ...[
                     Center(
                       child: Text(state.errorMessage!),
                     ),
@@ -161,10 +158,17 @@ class _ConnectionPageState extends State<ConnectionPage> {
                             //       : null,
                             // ),
                             LiquidArtButton(
-                              label: 'Open Canvas',
+                              label: 'Open Demo Canvas',
+                              onTap: state.client != null &&
+                                      !state.client!.isClosed
+                                  ? () => _galaxyCubit.openCanvas('assets/canvas3.jpg', null)
+                                  : null,
+                            ),
+                            LiquidArtButton(
+                              label: 'Close Canvas',
                               onTap: state.client != null &&
                                   !state.client!.isClosed
-                                  ? () => _galaxyCubit.openCanvas()
+                                  ? () => _galaxyCubit.shutdown()
                                   : null,
                             ),
                           ],
@@ -182,6 +186,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             children: [
               _buildSpeedDial(
                   context,
+                  'Home Page',
                   const Icon(
                     Icons.home,
                     color: Colors.white,
@@ -193,6 +198,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'Drawer Page',
                   const Icon(
                     Icons.brush,
                     color: Colors.white,
@@ -204,6 +210,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'Gallery Page',
                   const Icon(
                     Icons.image,
                     color: Colors.white,
@@ -215,6 +222,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
+                  'API Key Page',
                   const Icon(
                     Icons.key,
                     color: Colors.white,
@@ -233,8 +241,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
   }
 }
 
-_buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
+    label: label,
     child: icon,
     backgroundColor: backgroundColor,
     onTap: () {

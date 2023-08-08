@@ -42,7 +42,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(50),
+          padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
               LiquidArtTextField(
@@ -74,6 +74,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
         children: [
           _buildSpeedDial(
               context,
+              'Home Page',
               const Icon(
                 Icons.home,
                 color: Colors.white,
@@ -85,6 +86,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           }),
           _buildSpeedDial(
               context,
+              'Connection Page',
               const Icon(
                 Icons.cast_connected,
                 color: Colors.white,
@@ -96,6 +98,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           }),
           _buildSpeedDial(
               context,
+              'Drawer Page',
               const Icon(
                 Icons.brush,
                 color: Colors.white,
@@ -107,6 +110,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           }),
           _buildSpeedDial(
               context,
+              'Gallery Page',
               const Icon(
                 Icons.image,
                 color: Colors.white,
@@ -122,8 +126,9 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   }
 }
 
-_buildSpeedDial(context, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
   return SpeedDialChild(
+    label: label,
     child: icon,
     backgroundColor: backgroundColor,
     onTap: () {

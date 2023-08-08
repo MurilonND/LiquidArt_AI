@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dartssh2/dartssh2.dart';
 import 'package:equatable/equatable.dart';
@@ -41,6 +42,11 @@ class GalaxyCubit extends Cubit<GalaxyState> {
   }
 
   Future<void> connect() async {
+    final newState = state.copyWith(
+      errorMessage: null,
+    );
+    emit(newState);
+
     if (!state.formIsValid) {
       return emit(state.copyWith(
         showErrors: true,
@@ -92,17 +98,17 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     }
   }
 
-  // Future<void> shutdown() async {
-  //   if (state.client == null || state.client!.isClosed) return;
-  //
-  //   final shutdownCommand =
-  //       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/shutdown.sh) ${state.password}';
-  //   final session = await state.client!.execute(shutdownCommand);
-  //   await session.stdin.close();
-  //   await session.done;
-  // }
+  Future<void> shutdown() async {
+    if (state.client == null || state.client!.isClosed) return;
 
-  Future<void> openCanvas() async {
+      final closeCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/close.sh) ' +
+          state.password;
+      final close = await state.client!.execute(closeCanvasCommand);
+      await close.stdin.close();
+      await close.done;
+  }
+
+  Future<void> openCanvas(String? imagePath, Uint8List? imageFileBytes) async {
     final networkInfo = NetworkInfo();
     String? wifiIPv4 = '';
 
@@ -112,7 +118,7 @@ class GalaxyCubit extends Cubit<GalaxyState> {
       wifiIPv4 = '';
     }
 
-    rerunImageServer('assets/canvas3.jpg', state.lgScreens);
+    rerunImageServer(imagePath, state.lgScreens, imageFileBytes);
 
     final closeCanvasCommand = 'bash <(curl -S https://raw.githubusercontent.com/MurilonND/LiquidArt_AI/main/scripts/close.sh) ' +
         state.password;
