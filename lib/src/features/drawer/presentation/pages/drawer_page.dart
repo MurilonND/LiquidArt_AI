@@ -4,13 +4,13 @@ import 'dart:typed_data';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/infrastructure/api_services.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/home/presentation/page/home_page.dart';
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
-import 'package:liquid_art_ai/src/utils/user_configurations.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_dropdown.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
@@ -20,6 +20,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
+import '../../../connection/infrastructure/galaxy_cubit.dart';
+
 class DrawerPage extends StatefulWidget {
   const DrawerPage({super.key});
 
@@ -28,6 +30,8 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
+  late GalaxyCubit _galaxyCubit;
+
   List<String> modes = ["Dall-E", "Stable-Diffusion"];
   List<String> modelValues = ["dall_e", "stable_diffusion"];
   String? modelValue;
@@ -55,6 +59,8 @@ class _DrawerPageState extends State<DrawerPage> {
   bool placeHolder = true;
 
   var textController = TextEditingController();
+  var imagePromptController = TextEditingController();
+
 
   ScreenshotController screenshotController = ScreenshotController();
 
@@ -67,7 +73,7 @@ class _DrawerPageState extends State<DrawerPage> {
         .then((Uint8List? img) async {
       if (img != null) {
         final directory = (await getApplicationDocumentsDirectory()).path;
-        final filename = "share.png";
+        const filename = "share.png";
         final imgPath = await File("${directory}/$filename").create();
         await imgPath.writeAsBytes(img);
 
@@ -91,7 +97,7 @@ class _DrawerPageState extends State<DrawerPage> {
       final path = await getApplicationDocumentsDirectory();
       final imgPath = Directory('${path.path}/$folder');
 
-      final fileName = "${_imagePromptController?.text}.jpg";
+      final fileName = "${imagePromptController?.text}.jpg";
 
       if (await path.exists()) {
         await screenshotController.captureAndSave(imgPath.path,
@@ -112,13 +118,13 @@ class _DrawerPageState extends State<DrawerPage> {
     }
   }
 
-  TextEditingController? _imagePromptController;
-
   String drawer = "Drawer";
 
   @override
   void initState() {
-    _imagePromptController = TextEditingController(text: '');
+    print(imagePromptController.text);
+
+    _galaxyCubit = context.read<GalaxyCubit>();
 
     super.initState();
   }
@@ -129,7 +135,7 @@ class _DrawerPageState extends State<DrawerPage> {
       appBar: AppBar(
         title: Text(
           drawer,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
         centerTitle: true,
         elevation: 0,
@@ -147,7 +153,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 550),
                   child: Container(
-                    padding: const EdgeInsets.all(50),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,13 +177,15 @@ class _DrawerPageState extends State<DrawerPage> {
                                     sizes.add('LG 3 screens');
                                     sizeValues.add('500x1500');
                                     sizes.add('LG 5 screens');
-                                    sizeValues.add('500x2500');
+                                    sizeValues.add('1000x2500');
                                   } else {
-                                    sizeValue = '1024x1024';
+                                    if(sizeValue == '500x1500' || sizeValue == '1000x2500'){
+                                      sizeValue = '1024x1024';
+                                    }
                                     sizes.remove('LG 3 screens');
                                     sizeValues.remove('500x1500');
                                     sizes.remove('LG 5 screens');
-                                    sizeValues.remove('500x2500');
+                                    sizeValues.remove('1000x2500');
                                   }
                                 },
                               ),
@@ -215,7 +223,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 enabled: modelValue != null,
                                 label: 'Image Prompt',
                                 hintText: 'Image Prompt',
-                                textController: _imagePromptController,
+                                textController: imagePromptController,
                                 onChanged: (value) {
                                   setState(() {});
                                 },
@@ -234,7 +242,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                         isListening = true;
                                         speechToText.listen(onResult: (result) {
                                           setState(() {
-                                            _imagePromptController =
+                                            imagePromptController =
                                                 TextEditingController(
                                                     text:
                                                         result.recognizedWords);
@@ -339,7 +347,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             label: 'Generate Image',
                             onTap: modelValue != null &&
                                     sizeValue != null &&
-                                    _imagePromptController!.text.isNotEmpty
+                                    imagePromptController!.text.isNotEmpty
                                 ? () async {
                                     setState(() {
                                       isLoaded = false;
@@ -350,14 +358,19 @@ class _DrawerPageState extends State<DrawerPage> {
                                     if (modelValue == "dall_e") {
                                       image = await DallE.generateImage(
                                           context,
-                                          _imagePromptController!.text,
-                                          sizeValue!);
+                                          imagePromptController!.text,
+                                          sizeValue!,
+                                          _galaxyCubit.state.dalleKey
+                                      );
                                     } else {
                                       imageBytes =
                                           await StableDiffusion.generateImage(
                                               context,
-                                              _imagePromptController!.text,
-                                              sizeValue!);
+                                              imagePromptController!.text,
+                                              sizeValue!,
+                                              _galaxyCubit.state.ipAddressLocalMachine,
+                                              _galaxyCubit.state.portLocalMachine
+                                          );
                                     }
                                     setState(() {
                                       isLoaded = true;
@@ -490,7 +503,7 @@ class _DrawerPageState extends State<DrawerPage> {
           }),
           _buildSpeedDial(
               context,
-              'API Key',
+              'Services Keys Page',
               const Icon(
                 Icons.key,
                 color: Colors.white,

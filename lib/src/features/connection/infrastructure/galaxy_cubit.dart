@@ -34,9 +34,37 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     emit(newState);
   }
 
+  void portChanged(int value) {
+    final newState = state.copyWith(
+      port: value,
+    );
+    emit(newState);
+  }
+
   void passwordChanged(String value) {
     final newState = state.copyWith(
       password: value,
+    );
+    emit(newState);
+  }
+
+  void dalleKeyChanged(String value) {
+    final newState = state.copyWith(
+      dalleKey: value,
+    );
+    emit(newState);
+  }
+
+  void ipAddressLocalMachineChanged(String value) {
+    final newState = state.copyWith(
+      ipAddressLocalMachine: value,
+    );
+    emit(newState);
+  }
+
+  void portLocalMachineChanged(String value) {
+    final newState = state.copyWith(
+      portLocalMachine: value,
     );
     emit(newState);
   }
@@ -135,14 +163,4 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     await session.stdin.close();
     await session.done;
   }
-
-// Future<void> reboot() async {
-//   if (state.client == null || state.client!.isClosed) returnr;
-//
-//   final shutdownCommand =
-//       'bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/BIM-Liquid-Galaxy-Visualizer/main/bim_visualizer_node/libs/reboot.sh) ${state.password}';
-//   final session = await state.client!.execute(shutdownCommand);
-//   await session.stdin.close();
-//   await session.done;
-// }
 }

@@ -32,6 +32,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
   var ipAddressController = TextEditingController();
   var passwordController = TextEditingController();
   var lgScreensController = TextEditingController();
+  var portController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +56,30 @@ class _ConnectionPageState extends State<ConnectionPage> {
               child: ListView(
                 children: [
                   LiquidArtTextField(
-                    label: 'Liquid Galaxy Host Name',
-                    hintText: 'Ex: lg',
-                    textController: hostnameController,
-                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                    label: 'Liquid Galaxy IP Address',
+                    hintText: 'Ex: 172.16.51.173',
+                    textController: ipAddressController,
+                    onChanged: (value) => _galaxyCubit.ipAddressChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
                   ),
                   LiquidArtTextField(
-                    label: 'Liquid Galaxy IP Address',
-                    hintText: 'Ex: 172.16.51.173',
-                    textController: ipAddressController,
-                    onChanged: (value) => _galaxyCubit.ipAddressChanged(value),
+                    inputType: TextInputType.number,
+                    label: 'Liquid Galaxy Port',
+                    hintText: 'Ex: 22',
+                    textController: portController,
+                    onChanged: (value) =>
+                        _galaxyCubit.portChanged(int.parse(value)),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  LiquidArtTextField(
+                    label: 'Liquid Galaxy Host Name',
+                    hintText: 'Ex: lg',
+                    textController: hostnameController,
+                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
@@ -112,8 +124,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     child: LiquidArtButton(
                       label: 'Connect With Galaxy',
                       onTap: state.loading
-                          // ||
-                          // state.client != null && !state.client!.isClosed
+                          ||
+                          state.client != null && !state.client!.isClosed
                           ? null
                           : () => _galaxyCubit.connect(),
                     ),
@@ -136,27 +148,6 @@ class _ConnectionPageState extends State<ConnectionPage> {
                           spacing: 10,
                           runSpacing: 15,
                           children: [
-                            // LiquidArtButton(
-                            //   label: 'Reboot',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.reboot()
-                            //       : null,
-                            // ),
-                            // LiquidArtButton(
-                            //   label: 'Shutdown',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.shutdown()
-                            //       : null,
-                            // ),
-                            // LiquidArtButton(
-                            //   label: 'Test',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.sayHi()
-                            //       : null,
-                            // ),
                             LiquidArtButton(
                               label: 'Open Demo Canvas',
                               onTap: state.client != null &&
@@ -222,7 +213,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
-                  'API Key Page',
+                  'Services Keys Page',
                   const Icon(
                     Icons.key,
                     color: Colors.white,

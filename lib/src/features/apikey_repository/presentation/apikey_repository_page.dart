@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
@@ -8,6 +9,8 @@ import 'package:liquid_art_ai/src/utils/user_configurations.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_button.dart';
 import 'package:liquid_art_ai/src/widgets/liquid_art_text_field.dart';
 
+import '../../connection/infrastructure/galaxy_cubit.dart';
+
 class ApiKeyRepositoryPage extends StatefulWidget {
   const ApiKeyRepositoryPage({Key? key}) : super(key: key);
 
@@ -16,15 +19,71 @@ class ApiKeyRepositoryPage extends StatefulWidget {
 }
 
 class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
+  late GalaxyCubit _galaxyCubit;
+
   var dallEController = TextEditingController();
+  var ipAddressLocalMachineController = TextEditingController();
+  var portLocalMachineController = TextEditingController();
+
 
   @override
   void initState() {
-    if(UserConfigurations.getDallEKey() != null){
-      dallEController = TextEditingController(text: UserConfigurations.getDallEKey()!);
-    }
+    _galaxyCubit = context.read<GalaxyCubit>();
+
+    dallEController = TextEditingController(text: _galaxyCubit.state.dalleKey);
+    ipAddressLocalMachineController = TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
+    portLocalMachineController = TextEditingController(text: _galaxyCubit.state.portLocalMachine);
 
     super.initState();
+  }
+
+  popDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+          backgroundColor: Colors.transparent,
+          alignment: Alignment.center,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                    "Do you want to save those information's inside your device?", style: TextStyle(fontSize: 20),),
+                const SizedBox(height: 20,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LiquidArtButton(
+                      label: 'Save',
+                      onTap: () async {
+                        await UserConfigurations.setDallEKey(dallEController.text);
+                      },
+                    ),
+                    const SizedBox(width: 10,),
+                    LiquidArtButton(
+                      label: 'Cancel',
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
   }
 
   @override
@@ -32,7 +91,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Connection",
+          "Services Keys",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -49,6 +108,31 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 label: 'Dall-E API key',
                 hintText: '',
                 textController: dallEController,
+                onChanged: (value) {
+                  _galaxyCubit.dalleKeyChanged(value);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              LiquidArtTextField(
+                label: 'Ip Address of the Docker Machine',
+                hintText: '172.16.51.173',
+                textController: ipAddressLocalMachineController,
+                onChanged: (value) {
+                  _galaxyCubit.ipAddressLocalMachineChanged(value);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              LiquidArtTextField(
+                label: 'Port of the Docker Machine',
+                hintText: '8110',
+                textController: portLocalMachineController,
+                onChanged: (value) {
+                  _galaxyCubit.portLocalMachineChanged(value);
+                },
               ),
               const SizedBox(
                 height: 40,
@@ -57,10 +141,8 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: LiquidArtButton(
-                    label: 'Save Api keys',
-                    onTap: () async {
-                      await UserConfigurations.setDallEKey(dallEController.text);
-                    },
+                    label: 'Save Services keys',
+                    onTap: popDialog,
                   ),
                 ),
               ),
@@ -126,7 +208,8 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   }
 }
 
-_buildSpeedDial(context, String label, Icon icon, Color backgroundColor, Function function) {
+_buildSpeedDial(context, String label, Icon icon, Color backgroundColor,
+    Function function) {
   return SpeedDialChild(
     label: label,
     child: icon,

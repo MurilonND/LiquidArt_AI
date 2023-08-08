@@ -10,17 +10,23 @@ class GalaxyState extends Equatable {
   final bool loading;
   final int lgScreens;
   final String? errorMessage;
+  final String dalleKey;
+  final String ipAddressLocalMachine;
+  final String portLocalMachine;
 
   const GalaxyState({
     this.hostname = 'lg',
     this.port = 22,
-    this.ipAddress = '172.16.51.239',
+    this.ipAddress = '172.16.51.173',
     this.password = 'lq',
     this.client,
     this.showErrors = false,
     this.loading = false,
     this.lgScreens = 3,
     this.errorMessage,
+    this.dalleKey = '',
+    this.ipAddressLocalMachine = '',
+    this.portLocalMachine = '',
   });
 
   bool get formIsValid => ipAddress.isNotEmpty && password.isNotEmpty;
@@ -35,7 +41,10 @@ class GalaxyState extends Equatable {
         showErrors,
         loading,
         lgScreens,
-        errorMessage
+        errorMessage,
+        dalleKey,
+        ipAddressLocalMachine,
+        portLocalMachine,
       ];
 
   GalaxyState copyWith({
@@ -48,17 +57,23 @@ class GalaxyState extends Equatable {
     bool? loading,
     int? lgScreens,
     String? errorMessage,
+    String? dalleKey,
+    String? ipAddressLocalMachine,
+    String? portLocalMachine,
   }) {
     return GalaxyState(
-      hostname: hostname ?? this.hostname,
-      port: port ?? this.port,
-      ipAddress: ipAddress ?? this.ipAddress,
-      password: password ?? this.password,
-      client: client ?? this.client,
-      showErrors: showErrors ?? this.showErrors,
-      loading: loading ?? this.loading,
-      lgScreens: lgScreens ?? this.lgScreens,
-      errorMessage: errorMessage ?? this.errorMessage,
+        hostname: hostname ?? this.hostname,
+        port: port ?? this.port,
+        ipAddress: ipAddress ?? this.ipAddress,
+        password: password ?? this.password,
+        client: client ?? this.client,
+        showErrors: showErrors ?? this.showErrors,
+        loading: loading ?? this.loading,
+        lgScreens: lgScreens ?? this.lgScreens,
+        errorMessage: errorMessage ?? this.errorMessage,
+        dalleKey: dalleKey ?? this.dalleKey,
+        ipAddressLocalMachine: ipAddressLocalMachine ?? this.ipAddressLocalMachine,
+        portLocalMachine: portLocalMachine ?? this.portLocalMachine
     );
   }
 }

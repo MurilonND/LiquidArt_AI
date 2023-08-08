@@ -1,7 +1,12 @@
  
 # Liquid Art AI
 
-The LiquidArt AI is a mobile application developed in Flutter that allows users to generate images using a text or an audio to text prompt and a selection of  APIs (NightCafe, a local server of Stable Diffusion, AI Art Maker, Dall-e), a multi-screen system for displaying geographic information. The application uses a Node js server to connect to the Liquid Galaxy system and a custom API  to display the images on the screens. The project also includes a new local machine for the LG project that has a GPU and the ability to create AI art based on stable diffusion.
+The LiquidArt AI is a mobile application developed in Flutter that allows users to generate images using a text or an audio to text prompt and a selection of  APIs:
+- NightCafe
+- Local Server of Stable Diffusion
+- AI Art Maker
+- Dall-e
+The application uses a Node js server to connect to the Liquid Galaxy system and a custom API  to display the images on the screens. The project also includes a new local machine for the LG project that has a GPU and the ability to create AI art based on stable diffusion.
 <p align="center">
 <img src="./assets/logo/Logo.png" width="70%">
 </p>
@@ -18,9 +23,9 @@ docker --version
 ```bash
 git clone https://github.com/MurilonND/stable-diffusion-webui-docker.git
 ```
-5. Make sure Chromium Browser is installed on all machines. if this is not the case use the following link for tips on how to install it:
+5. Make sure Chromium Browser is installed in all liquid galaxys. if this is not the case use the following link for tips on how to install it:
 [How To Install Chromium Browser on Ubuntu](https://linuxize.com/post/how-to-install-chromium-web-browser-on-ubuntu-20-04/)
-6. Create an API Key for each API that you what to use
+6. Create an API Key for each API that you what to use:
 [How To create your own API Key for Dall-E](https://platform.openai.com/docs/api-reference/authentication)
 
 ## Running Project For The Liquid Galaxy
@@ -36,7 +41,7 @@ docker compose --profile auto up --build
 ```
 5. After that command finish the docker file should be runnig on the machine.
 
-## Connecting Players To The Game On LG
+## Connecting App To The Liquid Galaxy
 Once the screens are open, you can open the app on the Connection Page and connect with the galaxy, once that is done, and the API Key is configurated you can go to the drawer and chose one to run (The Stable Diffusion is the local Docker, will take a good amout of time depending on the machine). Once you have your image, save it and go to the Gallery page, ther you can select it and open it on Liquid Galaxy (Small images and images genereted with API that dont suport the Liquid Galaxy format will get distorted or get low resolutions)
 
 ## License
