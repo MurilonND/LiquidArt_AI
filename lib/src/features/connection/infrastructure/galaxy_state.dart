@@ -14,7 +14,7 @@ class GalaxyState extends Equatable {
   const GalaxyState({
     this.hostname = 'lg',
     this.port = 22,
-    this.ipAddress = '172.16.51.239',
+    this.ipAddress = '172.16.51.173',
     this.password = 'lq',
     this.client,
     this.showErrors = false,

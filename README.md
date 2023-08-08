@@ -25,7 +25,7 @@ git clone https://github.com/MurilonND/stable-diffusion-webui-docker.git
 ```
 5. Make sure Chromium Browser is installed in all liquid galaxys. if this is not the case use the following link for tips on how to install it:
 [How To Install Chromium Browser on Ubuntu](https://linuxize.com/post/how-to-install-chromium-web-browser-on-ubuntu-20-04/)
-6. Create an API Key for each API that you what to use
+6. Create an API Key for each API that you what to use:
 [How To create your own API Key for Dall-E](https://platform.openai.com/docs/api-reference/authentication)
 
 ## Running Project For The Liquid Galaxy
