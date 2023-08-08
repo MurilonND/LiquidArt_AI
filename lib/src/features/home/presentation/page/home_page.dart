@@ -27,6 +27,12 @@ class _HomePageState extends State<HomePage> {
     if (UserConfigurations.getDallEKey() != null) {
       _galaxyCubit.dalleKeyChanged(UserConfigurations.getDallEKey()!);
     }
+    if (UserConfigurations.getIpAddressLocalMachine() != null) {
+      _galaxyCubit.dalleKeyChanged(UserConfigurations.getIpAddressLocalMachine()!);
+    }
+    if (UserConfigurations.getPortLocalMachine() != null) {
+      _galaxyCubit.dalleKeyChanged(UserConfigurations.getPortLocalMachine()!);
+    }
 
     super.initState();
   }

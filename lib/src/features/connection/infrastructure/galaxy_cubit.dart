@@ -55,6 +55,20 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     emit(newState);
   }
 
+  void ipAddressLocalMachineChanged(String value) {
+    final newState = state.copyWith(
+      ipAddressLocalMachine: value,
+    );
+    emit(newState);
+  }
+
+  void portLocalMachineChanged(String value) {
+    final newState = state.copyWith(
+      portLocalMachine: value,
+    );
+    emit(newState);
+  }
+
   Future<void> connect() async {
     final newState = state.copyWith(
       errorMessage: null,

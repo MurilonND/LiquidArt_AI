@@ -59,7 +59,7 @@ class _DrawerPageState extends State<DrawerPage> {
   bool placeHolder = true;
 
   var textController = TextEditingController();
-  var _imagePromptController = TextEditingController();
+  var imagePromptController = TextEditingController();
 
 
   ScreenshotController screenshotController = ScreenshotController();
@@ -97,7 +97,7 @@ class _DrawerPageState extends State<DrawerPage> {
       final path = await getApplicationDocumentsDirectory();
       final imgPath = Directory('${path.path}/$folder');
 
-      final fileName = "${_imagePromptController?.text}.jpg";
+      final fileName = "${imagePromptController?.text}.jpg";
 
       if (await path.exists()) {
         await screenshotController.captureAndSave(imgPath.path,
@@ -122,6 +122,8 @@ class _DrawerPageState extends State<DrawerPage> {
 
   @override
   void initState() {
+    print(imagePromptController.text);
+
     _galaxyCubit = context.read<GalaxyCubit>();
 
     super.initState();
@@ -221,7 +223,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                 enabled: modelValue != null,
                                 label: 'Image Prompt',
                                 hintText: 'Image Prompt',
-                                textController: _imagePromptController,
+                                textController: imagePromptController,
                                 onChanged: (value) {
                                   setState(() {});
                                 },
@@ -240,7 +242,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                         isListening = true;
                                         speechToText.listen(onResult: (result) {
                                           setState(() {
-                                            _imagePromptController =
+                                            imagePromptController =
                                                 TextEditingController(
                                                     text:
                                                         result.recognizedWords);
@@ -345,7 +347,7 @@ class _DrawerPageState extends State<DrawerPage> {
                             label: 'Generate Image',
                             onTap: modelValue != null &&
                                     sizeValue != null &&
-                                    _imagePromptController!.text.isNotEmpty
+                                    imagePromptController!.text.isNotEmpty
                                 ? () async {
                                     setState(() {
                                       isLoaded = false;
@@ -356,7 +358,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                     if (modelValue == "dall_e") {
                                       image = await DallE.generateImage(
                                           context,
-                                          _imagePromptController!.text,
+                                          imagePromptController!.text,
                                           sizeValue!,
                                           _galaxyCubit.state.dalleKey
                                       );
@@ -364,8 +366,11 @@ class _DrawerPageState extends State<DrawerPage> {
                                       imageBytes =
                                           await StableDiffusion.generateImage(
                                               context,
-                                              _imagePromptController!.text,
-                                              sizeValue!);
+                                              imagePromptController!.text,
+                                              sizeValue!,
+                                              _galaxyCubit.state.ipAddressLocalMachine,
+                                              _galaxyCubit.state.portLocalMachine
+                                          );
                                     }
                                     setState(() {
                                       isLoaded = true;

@@ -22,12 +22,17 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   late GalaxyCubit _galaxyCubit;
 
   var dallEController = TextEditingController();
+  var ipAddressLocalMachineController = TextEditingController();
+  var portLocalMachineController = TextEditingController();
+
 
   @override
   void initState() {
     _galaxyCubit = context.read<GalaxyCubit>();
 
     dallEController = TextEditingController(text: _galaxyCubit.state.dalleKey);
+    ipAddressLocalMachineController = TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
+    portLocalMachineController = TextEditingController(text: _galaxyCubit.state.portLocalMachine);
 
     super.initState();
   }
@@ -108,13 +113,35 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 },
               ),
               const SizedBox(
+                height: 20,
+              ),
+              LiquidArtTextField(
+                label: 'Ip Address of the Docker Machine',
+                hintText: '172.16.51.173',
+                textController: ipAddressLocalMachineController,
+                onChanged: (value) {
+                  _galaxyCubit.ipAddressLocalMachineChanged(value);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              LiquidArtTextField(
+                label: 'Port of the Docker Machine',
+                hintText: '8110',
+                textController: portLocalMachineController,
+                onChanged: (value) {
+                  _galaxyCubit.portLocalMachineChanged(value);
+                },
+              ),
+              const SizedBox(
                 height: 40,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: LiquidArtButton(
-                    label: 'Save Api keys',
+                    label: 'Save Services keys',
                     onTap: popDialog,
                   ),
                 ),

@@ -11,6 +11,8 @@ class GalaxyState extends Equatable {
   final int lgScreens;
   final String? errorMessage;
   final String dalleKey;
+  final String ipAddressLocalMachine;
+  final String portLocalMachine;
 
   const GalaxyState({
     this.hostname = 'lg',
@@ -22,7 +24,9 @@ class GalaxyState extends Equatable {
     this.loading = false,
     this.lgScreens = 3,
     this.errorMessage,
-    this.dalleKey = ''
+    this.dalleKey = '',
+    this.ipAddressLocalMachine = '',
+    this.portLocalMachine = '',
   });
 
   bool get formIsValid => ipAddress.isNotEmpty && password.isNotEmpty;
@@ -38,7 +42,9 @@ class GalaxyState extends Equatable {
         loading,
         lgScreens,
         errorMessage,
-        dalleKey
+        dalleKey,
+        ipAddressLocalMachine,
+        portLocalMachine,
       ];
 
   GalaxyState copyWith({
@@ -52,18 +58,22 @@ class GalaxyState extends Equatable {
     int? lgScreens,
     String? errorMessage,
     String? dalleKey,
+    String? ipAddressLocalMachine,
+    String? portLocalMachine,
   }) {
     return GalaxyState(
-      hostname: hostname ?? this.hostname,
-      port: port ?? this.port,
-      ipAddress: ipAddress ?? this.ipAddress,
-      password: password ?? this.password,
-      client: client ?? this.client,
-      showErrors: showErrors ?? this.showErrors,
-      loading: loading ?? this.loading,
-      lgScreens: lgScreens ?? this.lgScreens,
-      errorMessage: errorMessage ?? this.errorMessage,
-      dalleKey: dalleKey ?? this.dalleKey,
+        hostname: hostname ?? this.hostname,
+        port: port ?? this.port,
+        ipAddress: ipAddress ?? this.ipAddress,
+        password: password ?? this.password,
+        client: client ?? this.client,
+        showErrors: showErrors ?? this.showErrors,
+        loading: loading ?? this.loading,
+        lgScreens: lgScreens ?? this.lgScreens,
+        errorMessage: errorMessage ?? this.errorMessage,
+        dalleKey: dalleKey ?? this.dalleKey,
+        ipAddressLocalMachine: ipAddressLocalMachine ?? this.ipAddressLocalMachine,
+        portLocalMachine: portLocalMachine ?? this.portLocalMachine
     );
   }
 }

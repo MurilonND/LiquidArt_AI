@@ -35,9 +35,10 @@ class DallE {
 }
 
 class StableDiffusion {
-  static final url = Uri.parse("http://172.17.56.174:8110/sdapi/v1/txt2img");
+  static generateImage(context ,String imagePrompt, String size, String ipAddressLocalMachine, String portLocalMachine) async{
+    final url = Uri.parse("http://$ipAddressLocalMachine:$portLocalMachine/sdapi/v1/txt2img");
 
-  static generateImage(context ,String imagePrompt, String size) async{
+
     final height = int.parse(size.split("x").first);
     final width = int.parse(size.split("x").last);
 
