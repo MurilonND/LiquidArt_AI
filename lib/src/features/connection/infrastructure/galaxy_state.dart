@@ -10,6 +10,7 @@ class GalaxyState extends Equatable {
   final bool loading;
   final int lgScreens;
   final String? errorMessage;
+  final String dalleKey;
 
   const GalaxyState({
     this.hostname = 'lg',
@@ -21,6 +22,7 @@ class GalaxyState extends Equatable {
     this.loading = false,
     this.lgScreens = 3,
     this.errorMessage,
+    this.dalleKey = ''
   });
 
   bool get formIsValid => ipAddress.isNotEmpty && password.isNotEmpty;
@@ -35,7 +37,8 @@ class GalaxyState extends Equatable {
         showErrors,
         loading,
         lgScreens,
-        errorMessage
+        errorMessage,
+        dalleKey
       ];
 
   GalaxyState copyWith({
@@ -48,6 +51,7 @@ class GalaxyState extends Equatable {
     bool? loading,
     int? lgScreens,
     String? errorMessage,
+    String? dalleKey,
   }) {
     return GalaxyState(
       hostname: hostname ?? this.hostname,
@@ -59,6 +63,7 @@ class GalaxyState extends Equatable {
       loading: loading ?? this.loading,
       lgScreens: lgScreens ?? this.lgScreens,
       errorMessage: errorMessage ?? this.errorMessage,
+      dalleKey: dalleKey ?? this.dalleKey,
     );
   }
 }

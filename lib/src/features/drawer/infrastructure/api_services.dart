@@ -7,10 +7,10 @@ import 'package:liquid_art_ai/src/utils/user_configurations.dart';
 class DallE {
   static final url = Uri.parse("https://api.openai.com/v1/images/generations");
 
-  static generateImage(context, String imagePrompt, String size) async{
+  static generateImage(context, String imagePrompt, String size, String apiKey) async{
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${UserConfigurations.getDallEKey()}"
+      "Authorization": "Bearer $apiKey"
     };
 
     final body = jsonEncode(
@@ -35,7 +35,7 @@ class DallE {
 }
 
 class StableDiffusion {
-  static final url = Uri.parse("http://172.17.56.174:7860/sdapi/v1/txt2img");
+  static final url = Uri.parse("http://172.17.56.174:8110/sdapi/v1/txt2img");
 
   static generateImage(context ,String imagePrompt, String size) async{
     final height = int.parse(size.split("x").first);

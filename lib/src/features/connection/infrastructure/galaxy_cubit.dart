@@ -48,6 +48,13 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     emit(newState);
   }
 
+  void dalleKeyChanged(String value) {
+    final newState = state.copyWith(
+      dalleKey: value,
+    );
+    emit(newState);
+  }
+
   Future<void> connect() async {
     final newState = state.copyWith(
       errorMessage: null,

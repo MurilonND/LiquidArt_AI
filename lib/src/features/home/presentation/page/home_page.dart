@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:liquid_art_ai/src/features/apikey_repository/presentation/apikey_repository_page.dart';
 import 'package:liquid_art_ai/src/features/drawer/presentation/pages/drawer_page.dart';
 import 'package:liquid_art_ai/src/features/gallery/presentation/pages/galley_page.dart';
 import 'package:liquid_art_ai/src/features/connection/presentation/page/connection_page.dart';
 import 'package:network_info_plus/network_info_plus.dart';
+
+import '../../../../utils/user_configurations.dart';
+import '../../../connection/infrastructure/galaxy_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +18,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late GalaxyCubit _galaxyCubit;
+
+  @override
+  void initState() {
+    _galaxyCubit = context.read<GalaxyCubit>();
+
+    if (UserConfigurations.getDallEKey() != null) {
+      _galaxyCubit.dalleKeyChanged(UserConfigurations.getDallEKey()!);
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +120,7 @@ class _HomePageState extends State<HomePage> {
           }),
           _buildSpeedDial(
               context,
-              'API Keys',
+              'Services Keys Page',
               const Icon(
                 Icons.key,
                 color: Colors.white,

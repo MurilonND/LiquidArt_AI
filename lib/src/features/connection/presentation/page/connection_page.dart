@@ -148,27 +148,6 @@ class _ConnectionPageState extends State<ConnectionPage> {
                           spacing: 10,
                           runSpacing: 15,
                           children: [
-                            // LiquidArtButton(
-                            //   label: 'Reboot',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.reboot()
-                            //       : null,
-                            // ),
-                            // LiquidArtButton(
-                            //   label: 'Shutdown',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.shutdown()
-                            //       : null,
-                            // ),
-                            // LiquidArtButton(
-                            //   label: 'Test',
-                            //   onTap: state.client != null &&
-                            //           !state.client!.isClosed
-                            //       ? () => _galaxyCubit.sayHi()
-                            //       : null,
-                            // ),
                             LiquidArtButton(
                               label: 'Open Demo Canvas',
                               onTap: state.client != null &&
@@ -234,7 +213,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
-                  'API Key Page',
+                  'Services Keys Page',
                   const Icon(
                     Icons.key,
                     color: Colors.white,
