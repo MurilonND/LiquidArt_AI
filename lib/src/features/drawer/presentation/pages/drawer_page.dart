@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -48,6 +49,7 @@ class _DrawerPageState extends State<DrawerPage> {
   String? scaleValue;
 
   String image = "";
+  String imageBytes = "";
   bool isLoaded = false;
   bool isSaving = false;
   bool placeHolder = true;
@@ -337,12 +339,13 @@ class _DrawerPageState extends State<DrawerPage> {
                             label: 'Generate Image',
                             onTap: modelValue != null &&
                                     sizeValue != null &&
-                                    _imagePromptController!.text.isNotEmpty &&
-                                    UserConfigurations.getDallEKey() != ""
+                                    _imagePromptController!.text.isNotEmpty
                                 ? () async {
                                     setState(() {
                                       isLoaded = false;
                                       placeHolder = false;
+                                      image = '';
+                                      imageBytes = '';
                                     });
                                     if (modelValue == "dall_e") {
                                       image = await DallE.generateImage(
@@ -350,7 +353,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                           _imagePromptController!.text,
                                           sizeValue!);
                                     } else {
-                                      image =
+                                      imageBytes =
                                           await StableDiffusion.generateImage(
                                               context,
                                               _imagePromptController!.text,
@@ -373,16 +376,29 @@ class _DrawerPageState extends State<DrawerPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (isLoaded) ...[
-                        Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Screenshot(
-                            controller: screenshotController,
-                            child: Image.network(image),
-                          ),
-                        )
+                        if (imageBytes != '')...[
+                          Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Screenshot(
+                              controller: screenshotController,
+                              child: Image.memory(base64Decode(imageBytes)),
+                            ),
+                          )
+                        ]else...[
+                          Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Screenshot(
+                              controller: screenshotController,
+                              child: Image.network(image),
+                            ),
+                          )
+                        ]
                       ] else ...[
                         if (placeHolder) ...[
                           Image.asset('assets/logo/Logo.png')
@@ -403,7 +419,7 @@ class _DrawerPageState extends State<DrawerPage> {
                       ] else ...[
                         LiquidArtButton(
                           label: 'Save Image',
-                          onTap: image != ""
+                          onTap: image != "" || imageBytes != ""
                               ? () async {
                                   await downloadImg();
                                 }
