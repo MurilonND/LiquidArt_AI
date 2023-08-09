@@ -106,7 +106,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Services Keys",
+          "Services Key and IA Server Configurations",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -167,7 +167,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: LiquidArtButton(
-                    label: 'Save Services keys',
+                    label: 'Save Services Key and IA Server Configuration',
                     onTap: popDialog,
                   ),
                 ),

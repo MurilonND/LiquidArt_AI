@@ -34,6 +34,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
   var lgScreensController = TextEditingController();
   var portController = TextEditingController();
 
+  var obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GalaxyCubit, GalaxyState>(
@@ -84,11 +86,17 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   const SizedBox(
                     height: 25,
                   ),
-                  LiquidArtTextField(
-                    label: 'Liquid Galaxy Host Password',
-                    hintText: 'Ex: lq',
-                    textController: passwordController,
-                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      LiquidArtTextField(
+                        obscureText: obscureText,
+                        label: 'Liquid Galaxy Host Password',
+                        hintText: 'Ex: lq',
+                        textController: passwordController,
+                        onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 25,
@@ -213,7 +221,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
-                  'Services Keys Page',
+                  'Services Key and IA Server Configuration',
                   const Icon(
                     Icons.key,
                     color: Colors.white,

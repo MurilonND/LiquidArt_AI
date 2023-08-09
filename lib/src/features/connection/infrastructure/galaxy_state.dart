@@ -16,10 +16,10 @@ class GalaxyState extends Equatable {
   final String portLocalMachine;
 
   const GalaxyState({
-    this.hostname = 'lg',
+    this.hostname = '',
     this.port = 22,
-    this.ipAddress = '172.16.51.173',
-    this.password = 'lq',
+    this.ipAddress = '',
+    this.password = '',
     this.client,
     this.showErrors = false,
     this.loading = false,
