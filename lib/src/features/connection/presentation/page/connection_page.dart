@@ -57,6 +57,15 @@ class _ConnectionPageState extends State<ConnectionPage> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
+            actions: [
+              Row(
+                children: [
+                  Text(state.client != null && !state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+                  Icon(Icons.circle_rounded, color: state.client != null && !state.client!.isClosed ? Colors.green : Colors.red,),
+                  const SizedBox(width: 10,),
+                ],
+              )
+            ],
           ),
           body: Center(
             child: Container(

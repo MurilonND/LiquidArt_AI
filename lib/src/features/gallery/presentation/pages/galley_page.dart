@@ -233,6 +233,15 @@ class _GalleryPageState extends State<GalleryPage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
+        actions: [
+          Row(
+            children: [
+              Text(_galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+              Icon(Icons.circle_rounded, color: _galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? Colors.green : Colors.red,),
+              const SizedBox(width: 10,),
+            ],
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
