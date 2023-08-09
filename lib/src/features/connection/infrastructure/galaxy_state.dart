@@ -17,13 +17,13 @@ class GalaxyState extends Equatable {
 
   const GalaxyState({
     this.hostname = '',
-    this.port = 22,
+    this.port = 0,
     this.ipAddress = '',
     this.password = '',
     this.client,
     this.showErrors = false,
     this.loading = false,
-    this.lgScreens = 3,
+    this.lgScreens = 0,
     this.errorMessage,
     this.dalleKey = '',
     this.leapKey = '',

@@ -83,7 +83,10 @@ class _GalleryPageState extends State<GalleryPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Image.file(filePath),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*2/3, maxHeight: MediaQuery.of(context).size.height*2/3),
+                  child: Image.file(filePath),
+                )
               ),
               const SizedBox(
                 height: 20,
@@ -179,7 +182,10 @@ class _GalleryPageState extends State<GalleryPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Image.asset(filePath),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*2/3, maxHeight: MediaQuery.of(context).size.height*2/3),
+                  child: Image.asset(filePath),
+                )
               ),
               const SizedBox(
                 height: 20,
@@ -271,7 +277,7 @@ class _GalleryPageState extends State<GalleryPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Image.asset(imgDemoList[index]),
+                        child: Image.asset(imgDemoList[index],),
                       ),
                     ),
                   ),
