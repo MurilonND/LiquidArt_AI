@@ -41,6 +41,13 @@ class GalaxyCubit extends Cubit<GalaxyState> {
     emit(newState);
   }
 
+  void leapKeyChanged(String value) {
+    final newState = state.copyWith(
+      leapKey: value,
+    );
+    emit(newState);
+  }
+
   void passwordChanged(String value) {
     final newState = state.copyWith(
       password: value,

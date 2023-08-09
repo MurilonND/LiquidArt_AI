@@ -28,10 +28,13 @@ class _HomePageState extends State<HomePage> {
       _galaxyCubit.dalleKeyChanged(UserConfigurations.getDallEKey()!);
     }
     if (UserConfigurations.getIpAddressLocalMachine() != null) {
-      _galaxyCubit.dalleKeyChanged(UserConfigurations.getIpAddressLocalMachine()!);
+      _galaxyCubit.ipAddressLocalMachineChanged(UserConfigurations.getIpAddressLocalMachine()!);
     }
     if (UserConfigurations.getPortLocalMachine() != null) {
-      _galaxyCubit.dalleKeyChanged(UserConfigurations.getPortLocalMachine()!);
+      _galaxyCubit.portLocalMachineChanged(UserConfigurations.getPortLocalMachine()!);
+    }
+    if (UserConfigurations.getLeapKey() != null) {
+      _galaxyCubit.leapKeyChanged(UserConfigurations.getLeapKey()!);
     }
 
     super.initState();

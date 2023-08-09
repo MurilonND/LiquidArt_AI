@@ -11,6 +11,7 @@ class GalaxyState extends Equatable {
   final int lgScreens;
   final String? errorMessage;
   final String dalleKey;
+  final String leapKey;
   final String ipAddressLocalMachine;
   final String portLocalMachine;
 
@@ -25,6 +26,7 @@ class GalaxyState extends Equatable {
     this.lgScreens = 3,
     this.errorMessage,
     this.dalleKey = '',
+    this.leapKey = '',
     this.ipAddressLocalMachine = '',
     this.portLocalMachine = '',
   });
@@ -43,6 +45,7 @@ class GalaxyState extends Equatable {
         lgScreens,
         errorMessage,
         dalleKey,
+        leapKey,
         ipAddressLocalMachine,
         portLocalMachine,
       ];
@@ -58,6 +61,7 @@ class GalaxyState extends Equatable {
     int? lgScreens,
     String? errorMessage,
     String? dalleKey,
+    String? leapKey,
     String? ipAddressLocalMachine,
     String? portLocalMachine,
   }) {
@@ -72,6 +76,7 @@ class GalaxyState extends Equatable {
         lgScreens: lgScreens ?? this.lgScreens,
         errorMessage: errorMessage ?? this.errorMessage,
         dalleKey: dalleKey ?? this.dalleKey,
+        leapKey: leapKey ?? this.leapKey,
         ipAddressLocalMachine: ipAddressLocalMachine ?? this.ipAddressLocalMachine,
         portLocalMachine: portLocalMachine ?? this.portLocalMachine
     );

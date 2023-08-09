@@ -24,15 +24,18 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   var dallEController = TextEditingController();
   var ipAddressLocalMachineController = TextEditingController();
   var portLocalMachineController = TextEditingController();
-
+  var leapController = TextEditingController();
 
   @override
   void initState() {
     _galaxyCubit = context.read<GalaxyCubit>();
 
     dallEController = TextEditingController(text: _galaxyCubit.state.dalleKey);
-    ipAddressLocalMachineController = TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
-    portLocalMachineController = TextEditingController(text: _galaxyCubit.state.portLocalMachine);
+    ipAddressLocalMachineController =
+        TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
+    portLocalMachineController =
+        TextEditingController(text: _galaxyCubit.state.portLocalMachine);
+    leapController = TextEditingController(text: _galaxyCubit.state.leapKey);
 
     super.initState();
   }
@@ -59,19 +62,31 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                    "Do you want to save those information's inside your device?", style: TextStyle(fontSize: 20),),
-                const SizedBox(height: 20,),
+                  "Do you want to save those information's inside your device?",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     LiquidArtButton(
                       label: 'Save',
-                      onTap: () async {
-                        await UserConfigurations.setDallEKey(dallEController.text);
+                      onTap: () {
+                        UserConfigurations.setDallEKey(dallEController.text);
+                        UserConfigurations.setLeapKey(leapController.text);
+                        UserConfigurations.setIpAddressLocalMachine(
+                            ipAddressLocalMachineController.text);
+                        UserConfigurations.setPortLocalMachine(
+                            portLocalMachineController.text);
+                        Navigator.of(context).pop();
                       },
                     ),
-                    const SizedBox(width: 10,),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     LiquidArtButton(
                       label: 'Cancel',
                       onTap: () {
@@ -110,6 +125,17 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 textController: dallEController,
                 onChanged: (value) {
                   _galaxyCubit.dalleKeyChanged(value);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              LiquidArtTextField(
+                label: 'Leap API key',
+                hintText: '',
+                textController: leapController,
+                onChanged: (value) {
+                  _galaxyCubit.leapKeyChanged(value);
                 },
               ),
               const SizedBox(
