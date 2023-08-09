@@ -22,6 +22,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
   @override
   void initState() {
     _galaxyCubit = context.read<GalaxyCubit>();
+
+    hostnameController = TextEditingController(text: _galaxyCubit.state.hostname);
+    ipAddressController = TextEditingController(text: _galaxyCubit.state.ipAddress);
+    passwordController = TextEditingController(text: _galaxyCubit.state.password);
+    lgScreensController = TextEditingController(text: _galaxyCubit.state.lgScreens.toString());
+    portController = TextEditingController(text: _galaxyCubit.state.port.toString());
+
+
     super.initState();
   }
 
@@ -33,8 +41,6 @@ class _ConnectionPageState extends State<ConnectionPage> {
   var passwordController = TextEditingController();
   var lgScreensController = TextEditingController();
   var portController = TextEditingController();
-
-  var obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -81,23 +87,18 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg',
                     textController: hostnameController,
-                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                    onChanged: (value) => _galaxyCubit.hostNameChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
                       LiquidArtTextField(
-                        password: obscureText,
+                        password: true,
                         label: 'Liquid Galaxy Host Password',
                         hintText: 'Ex: lq',
                         textController: passwordController,
                         onChanged: (value) => _galaxyCubit.passwordChanged(value),
                       ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 25,
                   ),
