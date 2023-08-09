@@ -26,8 +26,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
     hostnameController = TextEditingController(text: _galaxyCubit.state.hostname);
     ipAddressController = TextEditingController(text: _galaxyCubit.state.ipAddress);
     passwordController = TextEditingController(text: _galaxyCubit.state.password);
-    lgScreensController = TextEditingController(text: _galaxyCubit.state.lgScreens.toString());
-    portController = TextEditingController(text: _galaxyCubit.state.port.toString());
+    lgScreensController = TextEditingController(text: _galaxyCubit.state.lgScreens.toString() == '0'? '': _galaxyCubit.state.lgScreens.toString());
+    portController = TextEditingController(text: _galaxyCubit.state.port.toString() == '0'? '': _galaxyCubit.state.port.toString());
 
 
     super.initState();
