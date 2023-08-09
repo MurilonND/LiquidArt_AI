@@ -22,6 +22,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
   @override
   void initState() {
     _galaxyCubit = context.read<GalaxyCubit>();
+
+    hostnameController = TextEditingController(text: _galaxyCubit.state.hostname);
+    ipAddressController = TextEditingController(text: _galaxyCubit.state.ipAddress);
+    passwordController = TextEditingController(text: _galaxyCubit.state.password);
+    lgScreensController = TextEditingController(text: _galaxyCubit.state.lgScreens.toString());
+    portController = TextEditingController(text: _galaxyCubit.state.port.toString());
+
+
     super.initState();
   }
 
@@ -49,6 +57,15 @@ class _ConnectionPageState extends State<ConnectionPage> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
+            actions: [
+              Row(
+                children: [
+                  Text(state.client != null && !state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+                  Icon(Icons.circle_rounded, color: state.client != null && !state.client!.isClosed ? Colors.green : Colors.red,),
+                  const SizedBox(width: 10,),
+                ],
+              )
+            ],
           ),
           body: Center(
             child: Container(
@@ -79,17 +96,18 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     label: 'Liquid Galaxy Host Name',
                     hintText: 'Ex: lg',
                     textController: hostnameController,
-                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                    onChanged: (value) => _galaxyCubit.hostNameChanged(value),
                   ),
                   const SizedBox(
                     height: 25,
                   ),
-                  LiquidArtTextField(
-                    label: 'Liquid Galaxy Host Password',
-                    hintText: 'Ex: lq',
-                    textController: passwordController,
-                    onChanged: (value) => _galaxyCubit.passwordChanged(value),
-                  ),
+                      LiquidArtTextField(
+                        password: true,
+                        label: 'Liquid Galaxy Host Password',
+                        hintText: 'Ex: lq',
+                        textController: passwordController,
+                        onChanged: (value) => _galaxyCubit.passwordChanged(value),
+                      ),
                   const SizedBox(
                     height: 25,
                   ),
@@ -213,7 +231,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
               }),
               _buildSpeedDial(
                   context,
-                  'Services Keys Page',
+                  'Services Key and IA Server Configuration',
                   const Icon(
                     Icons.key,
                     color: Colors.white,

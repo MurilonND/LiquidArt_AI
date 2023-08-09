@@ -6,8 +6,6 @@ import 'package:network_info_plus/network_info_plus.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
 
-import 'src/features/connection/infrastructure/galaxy_cubit.dart';
-
 HttpServer? server; // Declare a global variable to hold the server instance
 
 void startImageServer(String? imagePath, int lgScreens, Uint8List? imageFileBytes) async {
@@ -58,20 +56,20 @@ class ImageServer {
           <head>
             <style>
               body { margin: 0; padding: 0; height: 100vh; display: flex; justify-content: start; align-items: start; }
-              .logo-container { width: 50vh; height: 50vh; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
-              .image-container { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: 300% 100%; }
-              .image-container.image3 { background-position: 0 0; }
-              .image-container.image1 { background-position: 50% 0; }
-              .image-container.image2 { background-position: 100% 0; }
-              .image-container.5 { background-position: 0 0; }
-              .image-container.3 { background-position: 25% 0; }
-              .image-container.1 { background-position: 50% 0; }
-              .image-container.2 { background-position: 75% 0; }
-              .image-container.4 { background-position: 100% 0; }
+              .logo-container { width: 50vw; height: 50vw; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
+              .image-container { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: ${_getImageWight(lgScreens)} 100%; }
+              .image-container.image33 { background-position: 0 0; }
+              .image-container.image31 { background-position: 50% 0; }
+              .image-container.image32 { background-position: 100% 0; }
+              .image-container.image55 { background-position: 0 0; }
+              .image-container.image53 { background-position: 25% 0; }
+              .image-container.image51 { background-position: 50% 0; }
+              .image-container.image52 { background-position: 75% 0; }
+              .image-container.image54 { background-position: 100% 0; }
             </style>
           </head>
           <body>
-            <div class="${_getLogoClass(request.url.path)}"></div>
+            <div class="${_getLogoClass(request.url.path, lgScreens)}"></div>
             <div class="image-container ${_getImageClass(request.url.path, lgScreens)}"></div>
           </body>
         </html>
@@ -84,37 +82,45 @@ class ImageServer {
     }
   }
 
-  String _getLogoClass(String path){
-    if(path == '3' || path == '5'){
+  String _getLogoClass(String path, int lgScreens){
+    if(path == lgScreens.toString()){
           return 'logo-container';
       }
     return '';
+  }
+
+  String _getImageWight(int lgScreens){
+    if(lgScreens == 5){
+      return '500%';
+    }else{
+      return '300%';
+    }
   }
 
   String _getImageClass(String path, int lgScreens) {
     if(lgScreens == 5){
       switch (path) {
         case '1':
-          return '1';
+          return 'image51';
         case '2':
-          return '2';
+          return 'image52';
         case '3':
-          return '3';
+          return 'image53';
         case '4':
-          return '4';
+          return 'image54';
         case '5':
-          return '5';
+          return 'image55';
         default:
           return '';
       }
     }else{
       switch (path) {
         case '1':
-          return 'image1';
+          return 'image31';
         case '2':
-          return 'image2';
+          return 'image32';
         case '3':
-          return 'image3';
+          return 'image33';
         default:
           return '';
       }

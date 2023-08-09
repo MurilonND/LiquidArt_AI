@@ -29,6 +29,19 @@ class _GalleryPageState extends State<GalleryPage> {
 
   List imgList = [];
 
+  List imgDemoList = [
+    'assets/demo1.jpg',
+    'assets/demo2.jpg',
+    'assets/demo3.jpg',
+    'assets/demo4.jpg',
+    'assets/demo5.jpg',
+    'assets/demo6.jpg',
+    'assets/demo7.jpg',
+    'assets/demo8.jpg',
+    'assets/demo9.jpg',
+    'assets/demo10.jpg',
+  ];
+
   getImages() async {
     setState(() {
       isLoading = true;
@@ -70,7 +83,10 @@ class _GalleryPageState extends State<GalleryPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Image.file(filePath),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*2/3, maxHeight: MediaQuery.of(context).size.height*2/3),
+                  child: Image.file(filePath),
+                )
               ),
               const SizedBox(
                 height: 20,
@@ -139,6 +155,69 @@ class _GalleryPageState extends State<GalleryPage> {
     );
   }
 
+  popImageDemo(String filePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        alignment: Alignment.center,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*2/3, maxHeight: MediaQuery.of(context).size.height*2/3),
+                  child: Image.asset(filePath),
+                )
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              if (!(_galaxyCubit.state.client != null &&
+                  !_galaxyCubit.state.client!.isClosed)) ...[
+                const Text(
+                  "There is no connection with a Liquid Galaxy machine, please go to connection page",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+              LiquidArtButton(
+                  label: 'Show on Liquid Galaxy',
+                  onTap: _galaxyCubit.state.client != null &&
+                      !_galaxyCubit.state.client!.isClosed
+                      ? () =>
+                    _galaxyCubit.openCanvas(filePath, null)
+                      : null),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -160,6 +239,15 @@ class _GalleryPageState extends State<GalleryPage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
+        actions: [
+          Row(
+            children: [
+              Text(_galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+              Icon(Icons.circle_rounded, color: _galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? Colors.green : Colors.red,),
+              const SizedBox(width: 10,),
+            ],
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -168,6 +256,32 @@ class _GalleryPageState extends State<GalleryPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).size.width > 500
+                          ? MediaQuery.of(context).size.width > 100
+                              ? 4
+                              : 3
+                          : 2),
+                  itemCount: imgDemoList.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(top: 10.0, right: 10.0),
+                    child: InkWell(
+                      onTap: () {
+                        popImageDemo(imgDemoList[index]);
+                      },
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Image.asset(imgDemoList[index],),
+                      ),
+                    ),
+                  ),
+                ),
               if (isLoading) ...[
                 const Center(
                   child: CircularProgressIndicator(),
@@ -175,6 +289,7 @@ class _GalleryPageState extends State<GalleryPage> {
               ] else ...[
                 GridView.builder(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: MediaQuery.of(context).size.width > 500
                           ? MediaQuery.of(context).size.width > 100
@@ -245,7 +360,7 @@ class _GalleryPageState extends State<GalleryPage> {
           }),
           _buildSpeedDial(
               context,
-              'Services Keys Page',
+              'Services Key and IA Server Configuration',
               const Icon(
                 Icons.key,
                 color: Colors.white,

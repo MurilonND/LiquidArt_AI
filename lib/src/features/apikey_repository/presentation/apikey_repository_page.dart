@@ -24,15 +24,18 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
   var dallEController = TextEditingController();
   var ipAddressLocalMachineController = TextEditingController();
   var portLocalMachineController = TextEditingController();
-
+  var leapController = TextEditingController();
 
   @override
   void initState() {
     _galaxyCubit = context.read<GalaxyCubit>();
 
     dallEController = TextEditingController(text: _galaxyCubit.state.dalleKey);
-    ipAddressLocalMachineController = TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
-    portLocalMachineController = TextEditingController(text: _galaxyCubit.state.portLocalMachine);
+    ipAddressLocalMachineController =
+        TextEditingController(text: _galaxyCubit.state.ipAddressLocalMachine);
+    portLocalMachineController =
+        TextEditingController(text: _galaxyCubit.state.portLocalMachine);
+    leapController = TextEditingController(text: _galaxyCubit.state.leapKey);
 
     super.initState();
   }
@@ -59,19 +62,31 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                    "Do you want to save those information's inside your device?", style: TextStyle(fontSize: 20),),
-                const SizedBox(height: 20,),
+                  "Do you want to save those information's inside your device?",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     LiquidArtButton(
                       label: 'Save',
-                      onTap: () async {
-                        await UserConfigurations.setDallEKey(dallEController.text);
+                      onTap: () {
+                        UserConfigurations.setDallEKey(dallEController.text);
+                        UserConfigurations.setLeapKey(leapController.text);
+                        UserConfigurations.setIpAddressLocalMachine(
+                            ipAddressLocalMachineController.text);
+                        UserConfigurations.setPortLocalMachine(
+                            portLocalMachineController.text);
+                        Navigator.of(context).pop();
                       },
                     ),
-                    const SizedBox(width: 10,),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     LiquidArtButton(
                       label: 'Cancel',
                       onTap: () {
@@ -91,48 +106,102 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Services Keys",
+          "Services Key and IA Server Configurations",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
+        actions: [
+          Row(
+            children: [
+              Text(_galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+              Icon(Icons.circle_rounded, color: _galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? Colors.green : Colors.red,),
+              const SizedBox(width: 10,),
+            ],
+          )
+        ],
       ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
-              LiquidArtTextField(
-                label: 'Dall-E API key',
-                hintText: '',
-                textController: dallEController,
-                onChanged: (value) {
-                  _galaxyCubit.dalleKeyChanged(value);
-                },
+              const Text('Key for the APIs', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              Card(
+                shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Column(
+                    children: [
+                      LiquidArtTextField(
+                        label: 'Dall-E API key',
+                        hintText: '',
+                        textController: dallEController,
+                        onChanged: (value) {
+                          _galaxyCubit.dalleKeyChanged(value);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      LiquidArtTextField(
+                        label: 'Leap API key',
+                        hintText: '',
+                        textController: leapController,
+                        onChanged: (value) {
+                          _galaxyCubit.leapKeyChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              LiquidArtTextField(
-                label: 'Ip Address of the Docker Machine',
-                hintText: '172.16.51.173',
-                textController: ipAddressLocalMachineController,
-                onChanged: (value) {
-                  _galaxyCubit.ipAddressLocalMachineChanged(value);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              LiquidArtTextField(
-                label: 'Port of the Docker Machine',
-                hintText: '8110',
-                textController: portLocalMachineController,
-                onChanged: (value) {
-                  _galaxyCubit.portLocalMachineChanged(value);
-                },
+              const Text('Local Machine Running API', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              Card(
+                shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Column(
+                    children: [
+                      LiquidArtTextField(
+                        label: 'Ip Address of the Docker Machine',
+                        hintText: '172.16.51.173',
+                        textController: ipAddressLocalMachineController,
+                        onChanged: (value) {
+                          _galaxyCubit.ipAddressLocalMachineChanged(value);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      LiquidArtTextField(
+                        label: 'Port of the Docker Machine',
+                        hintText: '8110',
+                        textController: portLocalMachineController,
+                        onChanged: (value) {
+                          _galaxyCubit.portLocalMachineChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 40,
@@ -141,7 +210,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
                   child: LiquidArtButton(
-                    label: 'Save Services keys',
+                    label: 'Save Services Key and IA Server Configuration',
                     onTap: popDialog,
                   ),
                 ),
