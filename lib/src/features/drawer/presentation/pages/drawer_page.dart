@@ -181,17 +181,17 @@ class _DrawerPageState extends State<DrawerPage> {
                                     modelValue = value;
                                   });
                                   sizes.remove('LG 3 screens');
-                                  sizeValues.remove('448x1024');
+                                  sizeValues.remove('512x1024');
                                   sizes.remove('LG 5 screens');
-                                  sizeValues.remove('384x1024');
+                                  sizeValues.remove('448x1024');
 
                                   if (value != 'dall_e') {
                                     sizes.add('LG 3 screens');
-                                    sizeValues.add('448x1024');
+                                    sizeValues.add('512x1024');
                                     sizes.add('LG 5 screens');
-                                    sizeValues.add('384x1024');
+                                    sizeValues.add('448x1024');
                                   } else {
-                                    if(sizeValue == '448x1024' || sizeValue == '384x1024'){
+                                    if(sizeValue == '448x1024' || sizeValue == '512x1024'){
                                       sizeValue = '1024x1024';
                                     }
                                   }
