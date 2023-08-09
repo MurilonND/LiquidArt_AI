@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LiquidArtTextField extends StatefulWidget {
-  const LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, this.textController, this.enabled = true, this.onChanged, this.inputType, this.obscureText = false});
+  const LiquidArtTextField({super.key, this.maxLines = 1, required this.label, required this.hintText, this.textController, this.enabled = true, this.onChanged, this.inputType, this.password = false});
 
   final String label;
   final String hintText;
   final bool enabled;
-  final bool obscureText;
+  final bool password;
   final TextEditingController? textController;
   final int? maxLines;
   final Function? onChanged;
@@ -17,6 +17,8 @@ class LiquidArtTextField extends StatefulWidget {
 }
 
 class _LiquidArtTextFieldState extends State<LiquidArtTextField> {
+  var obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,13 +32,19 @@ class _LiquidArtTextFieldState extends State<LiquidArtTextField> {
           ),
         ),
         TextField(
-          obscureText: widget.obscureText,
+          obscureText: obscureText & widget.password,
           keyboardType: widget.inputType,
           enabled: widget.enabled,
           controller: widget.textController,
           autocorrect: false,
           maxLines: widget.maxLines,
           decoration: InputDecoration(
+              suffixIcon: widget.password ? IconButton(
+                icon: Icon(obscureText ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
+                onPressed: () {setState(() {
+                  obscureText = !obscureText;
+                });},
+              ) : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.0),
                 borderSide: const BorderSide(color: Colors.black),

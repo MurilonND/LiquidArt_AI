@@ -90,7 +90,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       LiquidArtTextField(
-                        obscureText: obscureText,
+                        password: obscureText,
                         label: 'Liquid Galaxy Host Password',
                         hintText: 'Ex: lq',
                         textController: passwordController,
