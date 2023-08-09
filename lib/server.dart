@@ -58,8 +58,8 @@ class ImageServer {
           <head>
             <style>
               body { margin: 0; padding: 0; height: 100vh; display: flex; justify-content: start; align-items: start; }
-              .logo-container { width: 50vh; height: 50vh; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
-              .image-container { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: 300% 100%; }
+              .logo-container { width: 50vw; height: 50vw; background-image: url('data:image/png;base64, $base64Logo'); background-size: 100% 100%; position: absolute; z-index: 1; }
+              .image-container { width: 100%; height: 100%; background-image: url('data:image/png;base64, $base64Image'); background-size: ${_getImageWight(lgScreens)} 100%; }
               .image-container.image3 { background-position: 0 0; }
               .image-container.image1 { background-position: 50% 0; }
               .image-container.image2 { background-position: 100% 0; }
@@ -89,6 +89,14 @@ class ImageServer {
           return 'logo-container';
       }
     return '';
+  }
+
+  String _getImageWight(int lgScreens){
+    if(lgScreens == 5){
+      return '500%';
+    }else{
+      return '300%';
+    }
   }
 
   String _getImageClass(String path, int lgScreens) {
