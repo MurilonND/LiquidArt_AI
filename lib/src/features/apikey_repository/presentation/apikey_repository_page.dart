@@ -119,46 +119,80 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
-              LiquidArtTextField(
-                label: 'Dall-E API key',
-                hintText: '',
-                textController: dallEController,
-                onChanged: (value) {
-                  _galaxyCubit.dalleKeyChanged(value);
-                },
+              const Text('Key for the APIs', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              Card(
+                shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Column(
+                    children: [
+                      LiquidArtTextField(
+                        label: 'Dall-E API key',
+                        hintText: '',
+                        textController: dallEController,
+                        onChanged: (value) {
+                          _galaxyCubit.dalleKeyChanged(value);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      LiquidArtTextField(
+                        label: 'Leap API key',
+                        hintText: '',
+                        textController: leapController,
+                        onChanged: (value) {
+                          _galaxyCubit.leapKeyChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              LiquidArtTextField(
-                label: 'Leap API key',
-                hintText: '',
-                textController: leapController,
-                onChanged: (value) {
-                  _galaxyCubit.leapKeyChanged(value);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              LiquidArtTextField(
-                label: 'Ip Address of the Docker Machine',
-                hintText: '172.16.51.173',
-                textController: ipAddressLocalMachineController,
-                onChanged: (value) {
-                  _galaxyCubit.ipAddressLocalMachineChanged(value);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              LiquidArtTextField(
-                label: 'Port of the Docker Machine',
-                hintText: '8110',
-                textController: portLocalMachineController,
-                onChanged: (value) {
-                  _galaxyCubit.portLocalMachineChanged(value);
-                },
+              const Text('Local Machine Running API', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              Card(
+                shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Column(
+                    children: [
+                      LiquidArtTextField(
+                        label: 'Ip Address of the Docker Machine',
+                        hintText: '172.16.51.173',
+                        textController: ipAddressLocalMachineController,
+                        onChanged: (value) {
+                          _galaxyCubit.ipAddressLocalMachineChanged(value);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      LiquidArtTextField(
+                        label: 'Port of the Docker Machine',
+                        hintText: '8110',
+                        textController: portLocalMachineController,
+                        onChanged: (value) {
+                          _galaxyCubit.portLocalMachineChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 40,
