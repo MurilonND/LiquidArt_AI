@@ -55,6 +55,7 @@ class _DrawerPageState extends State<DrawerPage> {
   String image = "";
   String imageBytes = "";
   bool isLoaded = false;
+  bool isLoading = true;
   bool isSaving = false;
   bool placeHolder = true;
 
@@ -356,10 +357,11 @@ class _DrawerPageState extends State<DrawerPage> {
                             onTap: modelValue != null &&
                                     sizeValue != null &&
                                     imagePromptController.text.isNotEmpty &&
-                                    isLoaded
+                                    isLoading
                                 ? () async {
                                     setState(() {
                                       isLoaded = false;
+                                      isLoading = false;
                                       placeHolder = false;
                                       image = '';
                                       imageBytes = '';
@@ -393,6 +395,7 @@ class _DrawerPageState extends State<DrawerPage> {
                                     }
                                     setState(() {
                                       isLoaded = true;
+                                      isLoading = true;
                                     });
                                   }
                                 : null,
