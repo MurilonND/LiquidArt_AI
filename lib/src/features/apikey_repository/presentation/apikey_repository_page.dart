@@ -116,9 +116,26 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
         actions: [
           Row(
             children: [
-              Text(_galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? "Connected" : "Disconnected",style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
-              Icon(Icons.circle_rounded, color: _galaxyCubit.state.client != null && !_galaxyCubit.state.client!.isClosed ? Colors.green : Colors.red,),
-              const SizedBox(width: 10,),
+              Text(
+                _galaxyCubit.state.client != null &&
+                        !_galaxyCubit.state.client!.isClosed
+                    ? "Connected"
+                    : "Disconnected",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+              Icon(
+                Icons.circle_rounded,
+                color: _galaxyCubit.state.client != null &&
+                        !_galaxyCubit.state.client!.isClosed
+                    ? Colors.green
+                    : Colors.red,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
             ],
           )
         ],
@@ -128,7 +145,10 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
           padding: const EdgeInsets.all(20),
           child: ListView(
             children: [
-              const Text('Key for the APIs', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              const Text(
+                'Key for the APIs',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
               Card(
                 shape: RoundedRectangleBorder(
                     side: const BorderSide(
@@ -142,6 +162,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                   child: Column(
                     children: [
                       LiquidArtTextField(
+                        password: true,
                         label: 'Dall-E API key',
                         hintText: '',
                         textController: dallEController,
@@ -153,6 +174,7 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
                         height: 20,
                       ),
                       LiquidArtTextField(
+                        password: true,
                         label: 'Leap API key',
                         hintText: '',
                         textController: leapController,
@@ -167,7 +189,10 @@ class _ApiKeyRepositoryPageState extends State<ApiKeyRepositoryPage> {
               const SizedBox(
                 height: 20,
               ),
-              const Text('Local Machine Running API', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              const Text(
+                'Local Machine Running API',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
               Card(
                 shape: RoundedRectangleBorder(
                     side: const BorderSide(
