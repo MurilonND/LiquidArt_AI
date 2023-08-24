@@ -36,7 +36,7 @@ class _DrawerPageState extends State<DrawerPage> {
   List<String> modelValues = ["dall_e", "stable_diffusion", "eab32df0-de26-4b83-a908-a83f3015e971", "8b1b897c-d66d-45a6-b8d7-8e32421d02cf", "d66b1686-5e5d-43b2-a2e7-d295d679917c"];
   String? modelValue;
 
-  List<String> sizes = ["Small", "Medium", "Large"];
+  List<String> sizes = ["Small(256x256)", "Medium(512x512)", "Large(1024x1024)"];
   List<String> sizeValues = ["256x256", "512x512", "1024x1024"];
   String? sizeValue;
 
